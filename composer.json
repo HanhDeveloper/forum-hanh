@@ -1,0 +1,29 @@
+{
+    "name": "HanhDeveloper/forum-hanh",
+    "type": "project",
+    "description": "",
+    "keywords": ["framework", "authentication", "authorization", "mvc", "security", "login", "encryption", "validation", "files", "ajax"],
+    "homepage": "https://github.com/HanhDeveloper/forum-hanh",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Hanh Developer",
+            "email": "hanh.cho.do@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/HanhDeveloper/forum-hanh/issues",
+        "source": "https://github.com/HanhDeveloper/forum-hanh"
+    },
+    "require": {
+        "php": ">=5.5.0",
+        "phpmailer/phpmailer": "~5.2",
+        "gregwar/captcha": "~1.1.1",
+        "twig/twig": "~1.0"
+
+    },
+    "autoload": {
+    	"psr-4": { "": ["system", "modules"] }
+    }
+}
