@@ -16,24 +16,24 @@ class App
     /**
      * @var Request
      */
-    public $request = null;
+    public $request;
 
     /**
      * @var Response
      */
-    public $response = null;
+    public $response;
 
     /**
      * @var Router
      */
-    private $router = null;
+    private $router;
 
     /**
      * App constructor.
      */
     public function __construct()
     {
-        // initialize request and response objects
+        // initialize request and response, router objects
         $this->request = new Request();
         $this->response = new Response();
         $this->router = new Router();
@@ -44,25 +44,20 @@ class App
      */
     public function run()
     {
-
-        // set subdirectory
-        $this->router->setBasePath('/hanh-dev');
+        // set sub-directory
+        $this->router->setBasePath('/hanh-dev/');
 
         try {
-
             // simple routers
             $this->routing();
 
             // Match a given Request Url against stored routes
             $match = $this->router->match();
 
-            // call closure or throw 404 status
-            if ($match && is_callable($match['target'])) {
-                call_user_func_array($match['target'], $match['params']);
-            } else {
-                // no route was matched
+            // no route was matched then throw 404 status
+            if (! $match)
                 throw new Exception('404 Not Found');
-            }
+
         } catch (Exception $e) {
             Logger::log($e->getMessage());
         }
@@ -79,7 +74,7 @@ class App
         });
 
         // map users details page
-        $this->router->map('GET|POST', '/users/[i:id]/', function ($id) {
+        $this->router->map('GET', '/users/[i:id]/', function ($id) {
             echo("sàdsafdsafsdf $id");
         });
     }

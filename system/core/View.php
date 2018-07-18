@@ -16,7 +16,7 @@ use Twig_Loader_Filesystem;
 class View
 {
     /**
-     * @var \Twig_Environment
+     * @var Twig_Environment
      */
     private $twig = null;
 
@@ -55,7 +55,7 @@ class View
      */
     public function __call($name, $args)
     {
-        if (!method_exists($this->twig, $name))
+        if (! method_exists($this->twig, $name))
             throw new Exception("does not have a method: $name");
 
         return call_user_func_array(array($this->twig, $name), $args);
