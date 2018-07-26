@@ -12,49 +12,44 @@ namespace Core;
 class Controller
 {
     /**
-     * @var View
-     */
-    private $view = null;
-
-    /**
      * @var Request
      */
-    private $request = null;
+    protected $request;
+
+    /**
+     * @var Response
+     */
+    protected $response;
+
+
+    /**
+     * @var Loader
+     */
+    protected $loader;
+
+    /**
+     * @var View
+     */
+    protected $view;
 
     /**
      * Controller constructor.
      */
     public function __construct()
     {
-        $this->view = new View();
+        // initialization of the required object
+        $this->request = new Request();
+        $this->response = new Response();
+        $this->loader = new Loader();
+        $this->loader->database();
+        $this->view = new View($this->request, $this->response);
     }
 
     /**
-     * Magic accessor for model autoloading.
-     *
-     * @param  string $name Property name
-     * @return object The model instance
+     * Show to browser
      */
-    public function __get($name)
+    public function __destruct()
     {
-        return $this->loadModel($name);
-    }
-
-    /**
-     * load model
-     * It assumes the model's constructor doesn't need parameters for constructor
-     *
-     * @param string $model class name
-     * @return Model
-     */
-    public function loadModel($model)
-    {
-        $uc_model = ucwords($model);
-        return $this->{$model} = new $uc_model();
-    }
-
-    public function index()
-    {
-        $this->view->render('index.html', array('title' => 'Fabien'));
+        $this->response->send();
     }
 }

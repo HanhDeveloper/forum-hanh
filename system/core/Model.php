@@ -9,7 +9,7 @@ namespace Core;
  * Class Model
  * @package Core
  */
-class Model
+class Model extends \Illuminate\Database\Eloquent\Model
 {
 
 }

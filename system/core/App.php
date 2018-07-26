@@ -5,7 +5,7 @@
 
 namespace Core;
 
-use Exception;
+use RuntimeException;
 
 /**
  * Class App
@@ -13,16 +13,6 @@ use Exception;
  */
 class App
 {
-    /**
-     * @var Request
-     */
-    public $request;
-
-    /**
-     * @var Response
-     */
-    public $response;
-
     /**
      * @var Router
      */
@@ -33,9 +23,7 @@ class App
      */
     public function __construct()
     {
-        // initialize request and response, router objects
-        $this->request = new Request();
-        $this->response = new Response();
+        // initialize the router object
         $this->router = new Router();
     }
 
@@ -55,27 +43,21 @@ class App
             $match = $this->router->match();
 
             // no route was matched then throw 404 status
-            if (! $match)
-                throw new Exception('404 Not Found');
+            if ($match === false)
+                throw new RuntimeException('404 Not Found');
 
-        } catch (Exception $e) {
+        } catch (RuntimeException $e) {
+            print $e->getMessage();
             Logger::log($e->getMessage());
         }
     }
 
-    /**
-     * @throws Exception
-     */
     private function routing()
     {
         // map homepage
-        $this->router->map('GET', '/', function () {
-            echo("sàdsafdsafsdf");
-        });
+        $this->router->map('GET', '/', '\Hanh\Hanh::index');
 
         // map users details page
-        $this->router->map('GET', '/users/[i:id]/', function ($id) {
-            echo("sàdsafdsafsdf $id");
-        });
+        $this->router->map('GET', '/users/[i:id]', '\Hanh\Hanh::index');
     }
 }

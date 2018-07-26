@@ -5,8 +5,6 @@
 
 namespace Core;
 
-use Exception;
-
 /**
  * Class Router
  * @package core
@@ -14,22 +12,20 @@ use Exception;
 class Router
 {
     /**
-     * @var Route[] Array of all Route objects.
+     * Array of all Route objects.
+     * @var Route[]
      */
     private $routes = array();
 
     /**
-     * @var array Array to store named routes in, used for reverse routing.
-     */
-    private $namedRoutes = array();
-
-    /**
-     * @var string The base REQUEST_URI. Gets prepended to all route url's.
+     * The base REQUEST_URI. Gets prepended to all route url's.
+     * @var string
      */
     private $basePath = '';
 
     /**
-     * @var array Array of default match types (regex helpers)
+     * Array of default match types (regex helpers)
+     * @var array
      */
     private $matchTypes = array(
         'i' => '[0-9]++',
@@ -42,10 +38,9 @@ class Router
     /**
      * Create router in one call from config.
      *
-     * @param array $routes
+     * @param array  $routes
      * @param string $basePath
-     * @param array $matchTypes
-     * @throws Exception
+     * @param array  $matchTypes
      */
     public function __construct($routes = array(), $basePath = '', $matchTypes = array())
     {
@@ -85,10 +80,12 @@ class Router
     /**
      * Set the base path to ignore leading part of the Request URL (if main file lives in subdirectory of host)
      * Useful if you are running your application from a subdirectory.
+     *
+     * @param $basePath
      */
     public function setBasePath($basePath)
     {
-        $this->basePath = $basePath;
+        $this->basePath = rtrim($basePath, '/');
     }
 
     /**
@@ -106,20 +103,12 @@ class Router
      *
      * @param string $method One of 5 HTTP Methods, or a pipe-separated list of multiple HTTP Methods (GET|POST|PATCH|PUT|DELETE)
      * @param string $route  The route regex, custom regex must start with an @. You can use multiple pre-set regex filters, like [i:id]
-     * @param mixed $target  The target where this route should point to. Can be anything.
+     * @param mixed  $target The target where this route should point to. Can be anything.
      * @param string $name   Optional name of this route. Supply if you want to reverse route this url in your application.
-     * @throws Exception
      */
     public function map($method, $route, $target, $name = null)
     {
         $this->routes[] = new Route($route, ['methods' => $method, 'target' => $target, 'name' => $name]);
-        if ($name) {
-            if (isset($this->namedRoutes[$name])) {
-                throw new Exception("Can not redeclare route '{$name}'");
-            } else {
-                $this->namedRoutes[$name] = $route;
-            }
-        }
     }
 
     /**
@@ -127,7 +116,7 @@ class Router
      *
      * @param string $requestUrl
      * @param string $requestMethod
-     * @return array|boolean Array with route information on success, false on failure (no match).
+     * @return boolean true on success, false on failure (no match).
      */
     public function match($requestUrl = null, $requestMethod = null)
     {
@@ -144,6 +133,8 @@ class Router
         if (($strpos = strpos($requestUrl, '?')) !== false)
             $requestUrl = substr($requestUrl, 0, $strpos);
 
+        $requestUrl = rtrim($requestUrl, '/');
+
         // set Request Method if it isn't passed as a parameter
         if ($requestMethod === null)
             $requestMethod = isset($_SERVER['REQUEST_METHOD']) ? $_SERVER['REQUEST_METHOD'] : 'GET';
@@ -153,13 +144,13 @@ class Router
             // compare server request method with route's allowed http methods
             if (! in_array($requestMethod, (array)$route->getMethods(), true)) continue;
 
-            if ($route->getUrl() === '*') {
-                // * wildcard (matches all)
+            if ($route->getUrl() === '*') { // * wildcard (matches all)
                 $match = true;
             } else {
                 $regex = $this->compileRoute($route->getUrl());
                 $match = preg_match($regex, $requestUrl, $params) === 1;
             }
+
             if ($match) {
                 if ($params) {
                     foreach ($params as $key => $value) {
@@ -176,9 +167,13 @@ class Router
 
     /**
      * Compile the regex for a given route (EXPENSIVE)
+     *
+     * @param string $route The route given from stored routes
+     * @return string The route compiled
      */
     private function compileRoute($route)
     {
+        $route = rtrim($route, '/');
         if (preg_match_all('`(/|\.|)\[([^:\]]*+)(?::([^:\]]*+))?\](\?|)`', $route, $matches, PREG_SET_ORDER)) {
             $matchTypes = $this->matchTypes;
             foreach ($matches as $match) {

@@ -19,7 +19,7 @@
         <link rel="shortcut icon" href="http://localhost:8081/demo/favicon.ico">
         <link rel="alternate" type="application/rss+xml" title="RSS | Trang web Tin tức"
               href="http://localhost:8081/demo/rss/rss.php">
-        <title>{{ title }}</title>
+        <title>{% block title %}{% endblock %}</title>
         <script type="text/javascript"
                 src="http://ajax.microsoft.com/ajax/jquery.validate/1.7/jquery.validate.min.js"></script>
     {% endblock %}
