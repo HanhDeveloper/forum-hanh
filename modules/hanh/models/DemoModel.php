@@ -13,5 +13,5 @@ use Core\Model;
  */
 class DemoModel extends Model
 {
-    protected $table = 'guest';
+    protected $table = 'users';
 }

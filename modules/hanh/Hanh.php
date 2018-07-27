@@ -14,15 +14,14 @@ use Hanh\Models\DemoModel;
  */
 class Hanh extends Controller
 {
-    public function index()
+    public function getIndex()
     {
-        $user = DemoModel::find(1);
+        $user = DemoModel::all();
         $this->view->render('index', array('user' => $user));
     }
 
-    public function home($id)
+    public function getHanh($id)
     {
-        var_dump($id);
         $this->view->render('index', array('title' => 'Fabien'));
     }
 }

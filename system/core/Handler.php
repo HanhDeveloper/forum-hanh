@@ -1,14 +1,9 @@
 <?php
-
 /**
- * Handler class.
- *
- * Provides basic error and exception handling for your application.
- * It captures and handles all unhandled exceptions and errors.
- *
- * @license    http://opensource.org/licenses/MIT The MIT License (MIT)
- * @author     Omar El Gabry <omar.elgabry.93@gmail.com>
+ * @author: Hanh <hanh.cho.do@gmail.com>
  */
+
+namespace core;
 
 class Handler
 {
@@ -86,7 +81,7 @@ class Handler
      */
     public static function handleException($e)
     {
-        Logger::Log(get_class($e), $e->getMessage(), $e->getFile(), $e->getLine());
+        //Logger::Log(get_class($e), $e->getMessage(), $e->getFile(), $e->getLine());
         self::render($e)->send();
     }
 

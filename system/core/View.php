@@ -6,8 +6,6 @@
 namespace Core;
 
 use RuntimeException;
-use Twig_Environment;
-use Twig_Loader_Filesystem;
 
 /**
  * Class View
@@ -26,9 +24,14 @@ class View
     private $response;
 
     /**
-     * @var Twig_Environment
+     * @var \Twig_Environment
      */
     private $twig;
+
+    /**
+     * @var string
+     */
+    private $ext = '.html';
 
     /**
      * View constructor.
@@ -40,21 +43,53 @@ class View
         // initialization of the required object
         $this->request = $request;
         $this->response = $response;
-        $loader = new Twig_Loader_Filesystem(BASE_DIR . '/views');
-        $this->twig = new Twig_Environment($loader);
+        $loader = new \Twig_Loader_Filesystem(BASE_DIR . '/views');
+        $this->twig = new \Twig_Environment($loader);
+        $this->twig->addFunction(new \Twig_SimpleFunction('asset', function ($uri = '') {
+            return 'http://localhost/' . $uri;
+        }));
+        $this->twig->addFunction(new \Twig_SimpleFunction('site_url', function ($uri = '') {
+            return 'http://localhost/' . $uri;
+        }));
     }
 
     /**
-     * Override render template method.
+     * Render a template.
      *
      * @param string $name
      * @param array  $context
      */
     public function render($name, array $context = array())
     {
-        $name .= '.html';
+        $name .= $this->ext;
         $template = call_user_func_array(array($this->twig, 'render'), array($name, $context));
         $this->response->setContent($template);
+    }
+
+    /**
+     * Render a JSON view.
+     *
+     * @param  array $data
+     * @return string  Rendered output
+     *
+     */
+    public function renderJson($data)
+    {
+        $jsonData = $this->jsonEncode($data);
+        $this->response->type('application/json')->setContent($jsonData);
+        return $jsonData;
+    }
+
+    /**
+     * Serialize array to JSON and used for the response
+     *
+     * @param  array $data
+     * @return string  Rendered output
+     *
+     */
+    public function jsonEncode($data)
+    {
+        return json_encode($data);
     }
 
     /**

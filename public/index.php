@@ -42,7 +42,7 @@ define('LOG_MODE', false);
 |
 */
 
-//Handler::register();
+//\core\Handler::register();
 
 /*
 |--------------------------------------------------------------------------

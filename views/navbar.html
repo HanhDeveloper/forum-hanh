@@ -1,0 +1,51 @@
+<nav id="header" class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#navbar-collapse" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{{ site_url() }}">ByHanh</a>
+        </div>
+        <div class="navbar-collapse collapse" id="navbar-collapse" aria-expanded="false" style="height: 1px;">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="{{ site_url('forum') }}">Diễn đàn</a></li>
+                <li><a href="{{ site_url('chat') }}">Chatbox</a></li>
+                {% if(true) %}
+                    <li><a href="{{ site_url('shop') }}">Shop</a></li>
+                    <li class="has-badge hidden-xs hidden-sm"><a href="<?php echo site_url('messages/system'); ?>"
+                                                                 class="_notifications" data-unread="0"><i
+                                    class="fa fa-bell-o fa-lg"></i></a></li>
+                    <li class="has-badge hidden-xs hidden-sm"><a href="{{ site_url('messages') }}"
+                                                                 class="_messages" data-unread="0"><i
+                                    class="fa fa-envelope-o fa-lg"></i></a></li>
+                    <li class="dropdown hidden-lg" id="navbar-user">
+                        <a href="#" class="dropdown-toggle navbar-user" data-toggle="dropdown" role="button"
+                           aria-haspopup="true" aria-expanded="false"><img
+                                    src="{{ asset('img/noavatar_small.png') }}"
+                                    class="navbar-avatar"><span class="navbar-username">admin</span> <span
+                                    class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ site_url('profile') }}"><i class="fa fa-fw fa-user"></i> Trang cá
+                                    nhân</a></li>
+                            <li><a href="{{ site_url('account') }}"><i class="fa fa-fw fa-cog"></i> Tài
+                                    khoản</a>
+                            </li>
+                            <li><a href="{{ site_url('admin') }}" class="no-ajax"><i
+                                            class="fa fa-fw fa-cogs"></i> Admin Panel</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="{{ site_url('account/logout') }}"><i class="fa fa-fw fa-sign-out"></i>
+                                    Thoát</a></li>
+                        </ul>
+                    </li>
+                {% else %}
+                    <li><a href="{{ site_url('account/register') }}">Đăng ký</a></li>
+                    <li><a href="{{ site_url('login') }}">Đăng nhập</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>

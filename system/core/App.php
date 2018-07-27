@@ -32,32 +32,23 @@ class App
      */
     public function run()
     {
-        // set sub-directory
-        $this->router->setBasePath('/hanh-dev/');
-
         try {
             // simple routers
-            $this->routing();
-
-            // Match a given Request Url against stored routes
-            $match = $this->router->match();
-
-            // no route was matched then throw 404 status
-            if ($match === false)
-                throw new RuntimeException('404 Not Found');
-
+            $this->getRoutes();
+            $this->router->setBasePath('/hanh-dev');
+            $this->router->match();
         } catch (RuntimeException $e) {
             print $e->getMessage();
             Logger::log($e->getMessage());
         }
     }
 
-    private function routing()
+    private function getRoutes()
     {
-        // map homepage
-        $this->router->map('GET', '/', '\Hanh\Hanh::index');
-
-        // map users details page
-        $this->router->map('GET', '/users/[i:id]', '\Hanh\Hanh::index');
+        $this->router->any('/', function () {
+            echo 'This responds to the default route';
+        });
+        $this->router->controller('/controller', 'Hanh\\Hanh');
+        $this->router->controller('/chat', 'Hanh\\Chat');
     }
 }
