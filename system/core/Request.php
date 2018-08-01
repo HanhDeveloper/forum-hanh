@@ -11,7 +11,6 @@ namespace Core;
  */
 class Request
 {
-
     /**
      * Enable XSS flag
      *
@@ -28,10 +27,10 @@ class Request
      *
      * Internal method used to retrieve values from global arrays.
      *
-     * @param    array &$array    $_GET, $_POST, $_COOKIE, $_SERVER, etc.
-     * @param    mixed $index     Index for item to be fetched from $array
-     * @param    bool  $xss_clean Whether to apply XSS filtering
-     * @return    mixed
+     * @param array &$array    $_GET, $_POST, $_COOKIE, $_SERVER, etc.
+     * @param mixed $index     Index for item to be fetched from $array
+     * @param bool  $xss_clean Whether to apply XSS filtering
+     * @return mixed
      */
     protected function _fetch_from_array(&$array, $index = NULL, $xss_clean = NULL)
     {
@@ -82,9 +81,9 @@ class Request
     /**
      * Fetch an item from the GET array
      *
-     * @param    mixed $index     Index for item to be fetched from $_GET
-     * @param    bool  $xss_clean Whether to apply XSS filtering
-     * @return    mixed
+     * @param mixed $index     Index for item to be fetched from $_GET
+     * @param bool  $xss_clean Whether to apply XSS filtering
+     * @return mixed
      */
     public function get($index = NULL, $xss_clean = NULL)
     {
@@ -96,9 +95,9 @@ class Request
     /**
      * Fetch an item from the POST array
      *
-     * @param    mixed $index     Index for item to be fetched from $_POST
-     * @param    bool  $xss_clean Whether to apply XSS filtering
-     * @return    mixed
+     * @param mixed $index     Index for item to be fetched from $_POST
+     * @param bool  $xss_clean Whether to apply XSS filtering
+     * @return mixed
      */
     public function post($index = NULL, $xss_clean = NULL)
     {
@@ -110,9 +109,9 @@ class Request
     /**
      * Fetch an item from POST data with fallback to GET
      *
-     * @param    string $index     Index for item to be fetched from $_POST or $_GET
-     * @param    bool   $xss_clean Whether to apply XSS filtering
-     * @return    mixed
+     * @param string $index     Index for item to be fetched from $_POST or $_GET
+     * @param bool   $xss_clean Whether to apply XSS filtering
+     * @return mixed
      */
     public function post_get($index, $xss_clean = NULL)
     {
@@ -126,9 +125,9 @@ class Request
     /**
      * Fetch an item from GET data with fallback to POST
      *
-     * @param    string $index     Index for item to be fetched from $_GET or $_POST
-     * @param    bool   $xss_clean Whether to apply XSS filtering
-     * @return    mixed
+     * @param string $index     Index for item to be fetched from $_GET or $_POST
+     * @param bool   $xss_clean Whether to apply XSS filtering
+     * @return mixed
      */
     public function get_post($index, $xss_clean = NULL)
     {
@@ -147,7 +146,7 @@ class Request
         if (! empty($_SERVER['HTTP_X_REQUESTED_WITH'])) {
             return strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
         }
-        return false;
+        return FALSE;
     }
 
     /**

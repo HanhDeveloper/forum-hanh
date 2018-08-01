@@ -11,6 +11,8 @@
 
 require '../vendor/autoload.php';
 
+require '../system/core/Common.php';
+
 /*
 |--------------------------------------------------------------------------
 | Define Application Configuration Constants
@@ -28,9 +30,6 @@ require '../vendor/autoload.php';
 // Config::set('app', Config::get('base') . "/app/");
 
 define('BASE_DIR', str_replace("\\", "/", dirname(__DIR__)));
-define('IMAGES', str_replace("\\", "/", __DIR__) . "/img/");
-//define('APP', BASE_DIR . "/app/");
-define('LOG_MODE', false);
 
 /*
 |--------------------------------------------------------------------------
@@ -64,9 +63,6 @@ define('LOG_MODE', false);
 */
 
 $app = new \Core\App();
-
-// Config::set('root', $app->request->root());
-//define('PUBLIC_ROOT', $app->request->root());
 
 /*
 |--------------------------------------------------------------------------

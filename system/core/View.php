@@ -5,8 +5,6 @@
 
 namespace Core;
 
-use RuntimeException;
-
 /**
  * Class View
  * @package Core
@@ -87,7 +85,7 @@ class View
      * @return string  Rendered output
      *
      */
-    public function jsonEncode($data)
+    public function jsonEncode(array $data)
     {
         return json_encode($data);
     }
@@ -102,7 +100,7 @@ class View
     public function __call($name, $args)
     {
         if (! method_exists($this->twig, $name))
-            throw new RuntimeException("Does not have a method: $name");
+            throw new \RuntimeException("Does not have a method: $name");
 
         return call_user_func_array(array($this->twig, $name), $args);
     }

@@ -79,12 +79,27 @@ class Response
      */
     public function send()
     {
-
+        // sends http headers to the client
         $this->sendHeaders();
 
+        // this sends the content
         $this->sendContent();
 
+        if (function_exists('fastcgi_finish_request')) {
+            fastcgi_finish_request();
+        } elseif ('cli' !== PHP_SAPI) {
+            $this->flushBuffer();
+        }
+
         return $this;
+    }
+
+    /**
+     * Flushes output buffers.
+     */
+    private function flushBuffer()
+    {
+        flush(); // ob_flush();
     }
 
     /**
@@ -101,7 +116,7 @@ class Response
         }
 
         // status
-        header(sprintf('HTTP/%s %s %s', $this->version, $this->statusCode, $this->statusText), true, $this->statusCode);
+        header(sprintf('HTTP/%s %s %s', $this->version, $this->statusCode, $this->statusText), TRUE, $this->statusCode);
 
         // Content-Type
         // if Content-Type is already exists in headers, then don't send it
@@ -111,7 +126,7 @@ class Response
 
         // headers
         foreach ($this->headers as $name => $value) {
-            header($name . ': ' . $value, true, $this->statusCode);
+            header($name . ': ' . $value, TRUE, $this->statusCode);
         }
 
         return $this;
@@ -141,14 +156,14 @@ class Response
     }
 
     /**
-     * Sets content for the current web response.
+     * Sets content-type for the current web response.
      *
      * @param string|null $contentType The response content
      * @return Response
      */
-    public function type($contentType = null)
+    public function type($contentType = NULL)
     {
-        if ($contentType === null) unset($this->headers['Content-Type']);
+        if ($contentType === NULL) unset($this->headers['Content-Type']);
         else  $this->headers['Content-Type'] = $contentType;
         return $this;
     }

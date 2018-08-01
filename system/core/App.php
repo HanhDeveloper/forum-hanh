@@ -5,8 +5,6 @@
 
 namespace Core;
 
-use RuntimeException;
-
 /**
  * Class App
  * @package Core
@@ -25,6 +23,8 @@ class App
     {
         // initialize the router object
         $this->router = new Router();
+        $this->router->setBasePath('/hanh-dev');
+        $this->router->initialize();
     }
 
     /**
@@ -33,22 +33,11 @@ class App
     public function run()
     {
         try {
-            // simple routers
-            $this->getRoutes();
-            $this->router->setBasePath('/hanh-dev');
-            $this->router->match();
-        } catch (RuntimeException $e) {
+            if (! $this->router->match())
+                throw new \Exception('Not found page.');
+        } catch (\Exception $e) {
             print $e->getMessage();
             Logger::log($e->getMessage());
         }
-    }
-
-    private function getRoutes()
-    {
-        $this->router->any('/', function () {
-            echo 'This responds to the default route';
-        });
-        $this->router->controller('/controller', 'Hanh\\Hanh');
-        $this->router->controller('/chat', 'Hanh\\Chat');
     }
 }

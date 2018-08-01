@@ -9,7 +9,6 @@ use Phroute\Phroute\Dispatcher;
 use Phroute\Phroute\Exception\HttpMethodNotAllowedException;
 use Phroute\Phroute\Exception\HttpRouteNotFoundException;
 use Phroute\Phroute\RouteCollector;
-use RuntimeException;
 
 /**
  * Class Router
@@ -44,23 +43,38 @@ class Router extends RouteCollector
      *
      * @param string $requestMethod
      * @param string $requestUrl
+     * @return bool Return true on success (match any resource)
      */
-    public function match($requestMethod = null, $requestUrl = null)
+    public function match($requestMethod = NULL, $requestUrl = NULL)
     {
         //NB. You can cache the return value from $router->getData() so you don't have to create the routes each request - massive speed gains
         $this->dispatcher = new Dispatcher($this->getData());
-        $requestMethod = $requestMethod == null ? $_SERVER['REQUEST_METHOD'] : $requestMethod;
-        $requestUrl = $requestUrl == null ? $_SERVER['REQUEST_URI'] : $requestUrl;
+        $requestMethod = $requestMethod == NULL ? $_SERVER['REQUEST_METHOD'] : $requestMethod;
+        $requestUrl = $requestUrl == NULL ? $_SERVER['REQUEST_URI'] : $requestUrl;
         $requestUri = str_replace($this->basePath, '', parse_url($requestUrl, PHP_URL_PATH));
-        try {
-            $this->dispatcher->dispatch($requestMethod, $requestUri);
-        } catch (HttpRouteNotFoundException $e) {
-            print $e->getMessage();
-        } catch (HttpMethodNotAllowedException $e) {
-            print $e->getMessage();
-        }
+        $this->dispatcher->dispatch($requestMethod, $requestUri);
+        return TRUE;
     }
 
+    /**
+     * This registers the route to stored
+     */
+    private function getRoutes()
+    {
+        $this->any('/', function () {
+            echo 'This responds to the default route';
+        });
+        $this->controller('/controller', 'Hanh\\Hanh');
+        $this->controller('/chat', 'Hanh\\Chat');
+    }
+
+    /**
+     * Initializer
+     */
+    public function initialize()
+    {
+        $this->getRoutes();
+    }
 
     /**
      * Magic assessor for Router auto loading.
@@ -76,6 +90,6 @@ class Router extends RouteCollector
         elseif (method_exists($this->dispatcher, $name))
             return call_user_func_array(array($this->dispatcher, $name), $args);
         else
-            throw new RuntimeException("Does not have a method: $name");
+            throw new \RuntimeException("Does not have a method: $name");
     }
 }

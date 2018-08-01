@@ -21,11 +21,10 @@ class Controller
      */
     protected $response;
 
-
     /**
      * @var Loader
      */
-    protected $loader;
+    protected $load;
 
     /**
      * @var View
@@ -38,15 +37,15 @@ class Controller
     public function __construct()
     {
         // initialization of the required object
-        $this->request = new Request();
-        $this->response = new Response();
-        $this->loader = new Loader();
-        $this->loader->database();
+        $this->load = new Loader();
+        $this->request = $this->load->request();
+        $this->response = $this->load->response();
         $this->view = new View($this->request, $this->response);
+        $this->load->database();
     }
 
     /**
-     * Show to browser
+     * Display to user browser
      */
     public function __destruct()
     {

@@ -53,7 +53,7 @@ class Handler
 
         $fatals = [E_USER_ERROR, E_ERROR, E_PARSE];
 
-        if (! in_array($error['type'], $fatals, true)) {
+        if (! in_array($error['type'], $fatals, TRUE)) {
             return;
         }
 
