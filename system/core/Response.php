@@ -14,35 +14,21 @@ class Response
     /**
      * @var array
      */
-    public $headers;
+    private $configs = array(
+        'headers'    => [],
+        'content'    => '',
+        'statusCode' => 200,
+        'version'    => '1.0',
+        'charset'    => 'UTF-8'
+    );
 
     /**
      * @var string
      */
-    private $content;
+    private $content = '';
 
     /**
-     * @var string
-     */
-    private $version;
-
-    /**
-     * @var int
-     */
-    private $statusCode;
-
-    /**
-     * @var string
-     */
-    private $statusText;
-
-    /**
-     * @var string
-     */
-    private $charset;
-
-    /**
-     * Holds HTTP response statuses
+     * Holds HTTP response statuses.
      *
      * @var array
      */
@@ -57,21 +43,13 @@ class Response
     ];
 
     /**
-     * Constructor.
+     * Response constructor.
      *
-     * @param string $content The response content
-     * @param int    $status  The response status code
-     * @param array  $headers An array of response headers
-     *
+     * @param array $configs
      */
-    public function __construct($content = '', $status = 200, $headers = array())
+    public function __construct($configs = array())
     {
-        $this->content = $content;
-        $this->statusCode = $status;
-        $this->headers = $headers;
-        $this->statusText = $this->statusTexts[$status];
-        $this->version = '1.0';
-        $this->charset = 'UTF-8';
+        array_merge($this->configs, $configs);
     }
 
     /**
@@ -116,24 +94,24 @@ class Response
         }
 
         // status
-        header(sprintf('HTTP/%s %s %s', $this->version, $this->statusCode, $this->statusText), TRUE, $this->statusCode);
+        header(sprintf('HTTP/%s %s %s', $this->configs['version'], $this->configs['statusCode'], $this->getStatusText()), TRUE, $this->configs['statusCode']);
 
         // Content-Type
         // if Content-Type is already exists in headers, then don't send it
-        if (! array_key_exists('Content-Type', $this->headers)) {
-            header('Content-Type: ' . 'text/html; charset=' . $this->charset);
+        if (! array_key_exists('Content-Type', $this->configs['headers'])) {
+            header('Content-Type: ' . 'text/html; charset=' . $this->configs['charset']);
         }
 
         // headers
-        foreach ($this->headers as $name => $value) {
-            header($name . ': ' . $value, TRUE, $this->statusCode);
+        foreach ($this->configs['headers'] as $name => $value) {
+            header($name . ': ' . $value, TRUE, $this->configs['statusCode']);
         }
 
         return $this;
     }
 
     /**
-     * Sends content for the current web response.
+     * Send content for the current web response.
      *
      * @return Response
      */
@@ -144,7 +122,7 @@ class Response
     }
 
     /**
-     * Sets content for the current web response.
+     * Set content for the current web response.
      *
      * @param string $content The response content
      * @return Response
@@ -156,28 +134,38 @@ class Response
     }
 
     /**
-     * Sets content-type for the current web response.
+     * Set the response content-type.
      *
      * @param string|null $contentType The response content
      * @return Response
      */
     public function type($contentType = NULL)
     {
-        if ($contentType === NULL) unset($this->headers['Content-Type']);
-        else  $this->headers['Content-Type'] = $contentType;
+        if ($contentType === NULL) unset($this->configs['headers']['Content-Type']);
+        else  $this->configs['headers']['Content-Type'] = $contentType;
         return $this;
     }
 
     /**
-     * Sets the response status code & it's relevant text.
+     * Set the response status code.
      *
      * @param int $code HTTP status code
      * @return Response
      */
     public function setStatusCode($code)
     {
-        $this->statusCode = (int)$code;
-        $this->statusText = isset($this->statusTexts[$code]) ? $this->statusTexts[$code] : '';
+        $this->configs['statusCode'] = (int)$code;
         return $this;
+    }
+
+    /**
+     * Get status code relevant text.
+     *
+     * @return mixed|string
+     */
+    public function getStatusText()
+    {
+        $code = $this->configs['statusCode'];
+        return isset($this->statusTexts[$code]) ? $this->statusTexts[$code] : '';
     }
 }

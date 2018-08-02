@@ -3,23 +3,19 @@
  * @author: Hanh <hanh.cho.do@gmail.com>
  */
 
-namespace hanh\models;
+namespace Hanh\Model;
 
 use Core\Model;
 
-/**
- * Class ChatModel
- * @package hanh\models
- */
 class BotModel extends Model
 {
     protected $table = 'simi';
 
+    public $demo = 'hanh';
+
     public static function botReally($msg)
     {
-        return self::where('ask', $msg)
-            ->select('ans')
-            ->first();
+        return BotModel::where('ask', $msg)->select('ans')->first();
     }
 
     public static function saveBot($msg)

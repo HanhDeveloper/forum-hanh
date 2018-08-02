@@ -6,8 +6,6 @@
 namespace Core;
 
 use Phroute\Phroute\Dispatcher;
-use Phroute\Phroute\Exception\HttpMethodNotAllowedException;
-use Phroute\Phroute\Exception\HttpRouteNotFoundException;
 use Phroute\Phroute\RouteCollector;
 
 /**
@@ -23,6 +21,7 @@ class Router extends RouteCollector
 
     /**
      * The base REQUEST_URI.
+     *
      * @var string
      */
     private $basePath = '';
@@ -40,10 +39,10 @@ class Router extends RouteCollector
 
     /**
      * Match a given Request Url against stored routes
+     * Dispatch a route for the given HTTP Method / URI.
      *
      * @param string $requestMethod
      * @param string $requestUrl
-     * @return bool Return true on success (match any resource)
      */
     public function match($requestMethod = NULL, $requestUrl = NULL)
     {
@@ -53,23 +52,21 @@ class Router extends RouteCollector
         $requestUrl = $requestUrl == NULL ? $_SERVER['REQUEST_URI'] : $requestUrl;
         $requestUri = str_replace($this->basePath, '', parse_url($requestUrl, PHP_URL_PATH));
         $this->dispatcher->dispatch($requestMethod, $requestUri);
-        return TRUE;
     }
 
     /**
-     * This registers the route to stored
+     * This registers the route to stored.
      */
     private function getRoutes()
     {
         $this->any('/', function () {
             echo 'This responds to the default route';
         });
-        $this->controller('/controller', 'Hanh\\Hanh');
         $this->controller('/chat', 'Hanh\\Chat');
     }
 
     /**
-     * Initializer
+     * Initializer.
      */
     public function initialize()
     {

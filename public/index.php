@@ -11,7 +11,7 @@
 
 require '../vendor/autoload.php';
 
-require '../system/core/Common.php';
+require '../system/Common.php';
 
 /*
 |--------------------------------------------------------------------------

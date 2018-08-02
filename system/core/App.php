@@ -33,8 +33,7 @@ class App
     public function run()
     {
         try {
-            if (! $this->router->match())
-                throw new \Exception('Not found page.');
+            $this->router->match();
         } catch (\Exception $e) {
             print $e->getMessage();
             Logger::log($e->getMessage());

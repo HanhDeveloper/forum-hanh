@@ -45,7 +45,7 @@ class Controller
     }
 
     /**
-     * Display to user browser
+     * Display to user browser.
      */
     public function __destruct()
     {

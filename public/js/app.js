@@ -1,8 +1,11 @@
 $(function () {
+    Vue.http.options.emulateJSON = true; // support send json
     new Vue({
         el: '#chatbox',
         data: {
-            messages: []
+            messages: [],
+            txt: '',
+            ajaxRequest: false,
         },
         created: function () {
             this.getMessages();
@@ -10,15 +13,18 @@ $(function () {
         },
         methods: {
             getMessages: function () {
-                axios.post(base + 'chat/messages').then((response) => {
+                this.$http.post(base + 'chat/messages').then((response) => {
                     console.log(response.data);
                     this.messages = response.data.result;
                 });
             },
-            getMessage: function () {
-                setInterval(() => {
-                    this.messages.push({message: 'hamh'});
-                }, 5000);
+            send: function (txt) {
+                this.ajaxRequest = true;
+                setTimeout(this.$http.post(base + 'chat/save', {msg: txt}).then((response) => {
+                    console.log(response);
+                    this.getMessages();
+                    this.ajaxRequest = false;
+                }), 50000);
             },
             ping: function () {
                 setInterval(this.getMessages, 5000);

@@ -1,20 +1,24 @@
 {% extends "layout.html" %}
 {% block content %}
-    <div class="panel panel-primary">
+    <div id="chatbox" class="panel panel-primary">
         <div class="panel-body">
             <form action="{{ site_url('chat') }}" method="post" class="form-horizontal">
                 <div class="row">
-                    <div class="col-xs-9"><textarea name="message" rows="3" required="required"
-                                                    class="form-control" id="chat_input"></textarea></div>
-                    <div class="col-xs-3"><input type="submit" name="submit" value="Gửi"
-                                                 class="btn btn-primary btn-block" id="chat_submit"></div>
+                    <div class="col-xs-10">
+                        <textarea v-model="txt" name="message" rows="3" class="form-control"></textarea>
+                    </div>
+                    <div class="col-xs-2 text-center">
+                        <button v-on:click.stop.prevent="send(txt)" :disabled="ajaxRequest"
+                                class="btn btn-primary btn-block">Gửi
+                        </button>
+                    </div>
                 </div>
             </form>
         </div>
         <div class="chatbox">
-            <div id="chatbox" class="chatbox-content">
+            <div class="chatbox-content">
                 <div v-for="item in listItems" class="message">
-                    <div class="message-content text" data-time="${ item.time }"
+                    <div class="message-content text loading" data-time="${ item.time }"
                          id="chat-' + val.id + '"><a
                                 href="' + base + '/account/profile/' + val.username + '.' + val.user_id + '"
                                 title="' + val.time + '"><b v-text="item.user_id"></b></a>:
@@ -24,60 +28,4 @@
             </div>
         </div>
     </div>
-    <script>
-        /*//chatbox
-        var isSubmitting = false;
-        $('#chat_submit').click(function (event) {
-            event.preventDefault();
-            if (isSubmitting) return;
-            var input = $('#chat_input').val();
-            if (input.length >= 0) {
-                $.ajax({
-                    type: "POST",
-                    url: base + "chat/save",
-                    data: {message: input},
-                    cache: false,
-                    beforeSend: function () {
-                        isSubmitting = true;
-                        //$("#chatbox").html('<img src="' + base + 'assets/img/ajax-loader.gif" /> Connecting...');
-                    },
-                    success: function (response) {
-                        if (response.success == true) {
-                            console.log(response);
-                            refresh();
-                            $('#chat_input').val('')
-                            console.log('submit')
-                        }
-                        isSubmitting = false;
-                    }
-                });
-            } else alert('Yeu cau 5 ky tu');
-        });
-
-
-        // refresh new messages
-        var first_id = 1;
-        var last_id = 1;
-        refresh = function () {
-            $.post(base + "chat/messages", {first_id: first_id, last_id: last_id}, function (response, status) {
-                //console.log(response)
-                if (response.success == true) {
-                    $.each(response.result, function (i, val) {
-                        console.log(val);
-                        $('#chatbox').prepend('<li class="list-group-item" data-time="' + val.time + '" id="chat-' + val.id + '"><a href="' + base + '/account/profile/' + val.username + '.' + val.user_id + '" title="' + val.time + '"><b>' + (val.name ? val.name : 'BOT') + '</b></a>: ' + val.message + '</li>');
-                        last_id = val.id;
-                    });
-                }
-                console.log(last_id);
-            });
-        };
-
-        function bootChat() {
-            $('#chatbox').empty();
-            refresh();
-            setInterval(refresh, 5000);
-        }
-
-        bootChat();*/
-    </script>
 {% endblock %}

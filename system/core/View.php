@@ -33,6 +33,7 @@ class View
 
     /**
      * View constructor.
+     *
      * @param Request  $request
      * @param Response $response
      */
@@ -79,7 +80,7 @@ class View
     }
 
     /**
-     * Serialize array to JSON and used for the response
+     * Serialize array to JSON and used for the response.
      *
      * @param  array $data
      * @return string  Rendered output
