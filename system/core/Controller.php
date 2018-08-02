@@ -40,7 +40,7 @@ class Controller
         $this->load = new Loader();
         $this->request = $this->load->request();
         $this->response = $this->load->response();
-        $this->view = new View($this->request, $this->response);
+        $this->view = new View($this->load->request(), $this->load->response());
         $this->load->database();
     }
 

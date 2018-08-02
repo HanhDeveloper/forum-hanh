@@ -47,7 +47,7 @@ class Response
      *
      * @param array $configs
      */
-    public function __construct($configs = array())
+    public function __construct(array $configs = array())
     {
         array_merge($this->configs, $configs);
     }
@@ -152,16 +152,16 @@ class Response
      * @param int $code HTTP status code
      * @return Response
      */
-    public function setStatusCode($code)
+    public function setStatusCode(int $code)
     {
-        $this->configs['statusCode'] = (int)$code;
+        $this->configs['statusCode'] = $code;
         return $this;
     }
 
     /**
      * Get status code relevant text.
      *
-     * @return mixed|string
+     * @return string
      */
     public function getStatusText()
     {

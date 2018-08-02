@@ -19,7 +19,7 @@ class Loader
     public function request()
     {
         static $request;
-        return $request ? $request : new Request();
+        return $request ? $request : $request = new Request();
     }
 
     /**
@@ -28,7 +28,7 @@ class Loader
     public function response()
     {
         static $response;
-        return $response ? new Response() : $response;
+        return $response ? $response : $response = new Response();
     }
 
     /**
