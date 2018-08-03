@@ -24,4 +24,26 @@ class Session
             session_start();
         }
     }
+
+    /**
+     * set session key and value
+     *
+     * @param $key
+     * @param $value
+     */
+    public static function set($key, $value)
+    {
+        $_SESSION[$key] = $value;
+    }
+
+    /**
+     * get session value by $key
+     *
+     * @param  $key
+     * @return mixed
+     */
+    public static function get($key)
+    {
+        return isset($_SESSION[$key]) ? $_SESSION[$key] : NULL;
+    }
 }
