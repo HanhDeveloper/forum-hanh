@@ -12,14 +12,16 @@ class ChatModel extends DB
     public static function getMessages($index = 1)
     {
         return self::table('chats')
-            ->where('id', '>', $index)
+            ->join('users', 'chats.user_id', '=', 'users.id')
+            ->where('chats.id', '>', $index)
+            ->select('chats.id', 'chats.user_id', 'chats.message', 'chats.time', 'users.fullname')
             ->get();
     }
 
     public static function saveToDb($msg)
     {
         self::table('chats')->insert(
-            ['message' => $msg]
+            ['user_id' => 2, 'message' => $msg, 'time' => time()]
         );
     }
 }

@@ -1,4 +1,5 @@
 {% extends "layout.html" %}
+{% block title %}Chatbox{% endblock %}
 {% block content %}
     <div id="chatbox" class="panel panel-primary">
         <div class="panel-body">
@@ -20,8 +21,8 @@
                 <div v-for="item in listItems" class="message">
                     <div class="message-content text loading" data-time="{$item.time}"
                          id="chat-{$item.id}"><a
-                                href="' + base + '/account/profile/' + val.username + '.' + val.user_id + '"
-                                title="' + val.time + '"><b v-text="item.user_id"></b></a>: {$item.message}
+                                href="{{ site_url('account/profile/{$item.user_id}') }}"
+                                title="{$item.time}"><b v-text="item.fullname"></b></a>: {$item.message}
                     </div>
                 </div>
             </div>

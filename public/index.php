@@ -50,7 +50,7 @@ define('BASE_DIR', str_replace("\\", "/", dirname(__DIR__)));
 |
 */
 
-//Session::init();
+\Core\Session::init();
 
 /*
 |--------------------------------------------------------------------------
