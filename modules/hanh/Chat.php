@@ -3,27 +3,16 @@
  * @author: Hanh <hanh.cho.do@gmail.com>
  */
 
-namespace hanh;
+namespace Hanh;
 
 use Core\Controller;
 use hanh\Model\BotModel;
 use hanh\Model\ChatModel;
 
-/**
- * Class Chat
- * @package hanh
- */
 class Chat extends Controller
 {
     public function anyIndex()
     {
-
-        $bot = new BotModel();
-        var_dump($bot->demo);
-        $bot->demo = 'hanh5555';
-        $bot2 = new BotModel();
-        var_dump($bot2->demo);
-
         $this->view->render('chat');
     }
 
@@ -41,19 +30,13 @@ class Chat extends Controller
 
     public function postSave()
     {
-        $msg = $this->request->post('msg');
-        $json_str = file_get_contents('php://input');
-
-        $bot = BotModel::botReally($msg);
-        if (isset($bot->ans))
-            $message = $bot->ans;
-        else
-            $message = 'Bot chưa được học từ này';
-        BotModel::saveBot($message);
+        $message = $this->request->post('msg');
+        ChatModel::saveToDb($message);
+        $reply = BotModel::botReply($message);
+        ChatModel::saveToDb($reply);
         $this->view->renderJson([
             'success' => TRUE,
-            'result'  => $msg,
-            'result2' => $json_str,
+            'result'  => $message,
         ]);
     }
 }

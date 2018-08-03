@@ -3,11 +3,11 @@
  * @author: Hanh <hanh.cho.do@gmail.com>
  */
 
-namespace Core;
+namespace Library;
 
 /**
  * Class BotMan
- * @package Core
+ * @package Library
  */
 class BotMan
 {

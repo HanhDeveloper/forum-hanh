@@ -1,0 +1,15 @@
+<component name="ProjectCodeStyleConfiguration">
+  <code_scheme name="Project" version="173">
+    <PHPCodeStyleSettings>
+      <option name="ALIGN_KEY_VALUE_PAIRS" value="true" />
+      <option name="ALIGN_PHPDOC_PARAM_NAMES" value="true" />
+      <option name="ALIGN_PHPDOC_COMMENTS" value="true" />
+      <option name="COMMA_AFTER_LAST_ARRAY_ELEMENT" value="true" />
+      <option name="UPPER_CASE_BOOLEAN_CONST" value="true" />
+      <option name="UPPER_CASE_NULL_CONST" value="true" />
+      <option name="ELSE_IF_STYLE" value="COMBINE" />
+      <option name="ALIGN_CLASS_CONSTANTS" value="true" />
+      <option name="SPACE_AFTER_UNARY_NOT" value="true" />
+    </PHPCodeStyleSettings>
+  </code_scheme>
+</component>

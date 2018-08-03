@@ -1,20 +1,22 @@
 {% include "head.html" %}
 <body basesrc="{{ site_url() }}" id="mainpage">
-<div id="container">
-    {% include "navbar.html" %}
-    <div id="body" class="maintxt container">
-        <div class="row">
-            <div id="main" class="col-xs-12 col-lg-9">
-                {% block content %}{% endblock %}
+{% block body %}
+    <div id="container">
+        {% include "navbar.html" %}
+        <div id="body" class="maintxt container">
+            <div class="row">
+                <div id="main" class="col-xs-12 col-lg-9">
+                    {% block content %}{% endblock %}
+                </div>
+                <div id="sidebar" class="col-xs-12 col-lg-3 hidden-xs hidden-sm hidden-md">
+                    {% include "menu.html" %}
+                </div>
             </div>
-            <div id="sidebar" class="col-xs-12 col-lg-3 hidden-xs hidden-sm hidden-md">
-                {% include "menu.html" %}
-            </div>
-        </div>
-        {% include "footer.html" %}
-    </div><!--/ #body -->
-</div><!--/ #container -->
-{% block script %}{% endblock %}
-<script type="text/javascript" src="{{ asset('js/jquery.js') }}"></script>
+            {% include "footer.html" %}
+        </div><!--/ #body -->
+    </div><!--/ #container -->
+    {% block script %}{% endblock %}
+    <script type="text/javascript" src="{{ asset('js/jquery.js') }}"></script>
+{% endblock %}
 </body>
 </html>

@@ -5,23 +5,20 @@
 
 namespace Hanh\Model;
 
-use Core\Model;
+use Core\DB;
 
-class BotModel extends Model
+class BotModel extends DB
 {
-    protected $table = 'simi';
-
-    public $demo = 'hanh';
-
-    public static function botReally($msg)
+    public static function botReply($msg)
     {
-        return BotModel::where('ask', $msg)->select('ans')->first();
-    }
-
-    public static function saveBot($msg)
-    {
-        $botModel = new ChatModel();
-        $botModel->message = $msg;
-        $botModel->save();
+        $bot = self::table('simi')
+            ->where('ask', $msg)
+            ->select('ans')
+            ->first();
+        if (isset($bot->ans))
+            $reply = $bot->ans;
+        else
+            $reply = 'Bot chưa được học từ này';
+        return $reply;
     }
 }

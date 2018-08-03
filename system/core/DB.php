@@ -9,7 +9,7 @@ namespace Core;
  * Class Model
  * @package Core
  */
-class Model extends \Illuminate\Database\Eloquent\Model
+class DB extends \Illuminate\Database\Capsule\Manager
 {
 
 }

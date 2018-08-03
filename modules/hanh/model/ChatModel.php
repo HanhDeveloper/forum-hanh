@@ -5,14 +5,21 @@
 
 namespace Hanh\Model;
 
-use Core\Model;
+use Core\DB;
 
-class ChatModel extends Model
+class ChatModel extends DB
 {
-    protected $table = 'chats';
-
     public static function getMessages($index = 1)
     {
-        return ChatModel::where('id', '>', $index)->get();
+        return self::table('chats')
+            ->where('id', '>', $index)
+            ->get();
+    }
+
+    public static function saveToDb($msg)
+    {
+        self::table('chats')->insert(
+            ['message' => $msg]
+        );
     }
 }

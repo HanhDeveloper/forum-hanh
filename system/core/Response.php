@@ -19,28 +19,13 @@ class Response
         'content'    => '',
         'statusCode' => 200,
         'version'    => '1.0',
-        'charset'    => 'UTF-8'
+        'charset'    => 'UTF-8',
     );
 
     /**
      * @var string
      */
     private $content = '';
-
-    /**
-     * Holds HTTP response statuses.
-     *
-     * @var array
-     */
-    private $statusTexts = [
-        200 => 'OK',
-        302 => 'Found',
-        400 => 'Bad Request',
-        401 => 'Unauthorized',
-        403 => 'Forbidden',
-        404 => 'Not Found',
-        500 => 'Internal Server Error'
-    ];
 
     /**
      * Response constructor.
@@ -87,14 +72,69 @@ class Response
      */
     private function sendHeaders()
     {
-
         // check headers have already been sent by the developer
         if (headers_sent()) {
             return $this;
         }
 
+        // holds HTTP response statuses
+        $statusTexts = array(
+            100 => 'Continue',
+            101 => 'Switching Protocols',
+
+            200 => 'OK',
+            201 => 'Created',
+            202 => 'Accepted',
+            203 => 'Non-Authoritative Information',
+            204 => 'No Content',
+            205 => 'Reset Content',
+            206 => 'Partial Content',
+
+            300 => 'Multiple Choices',
+            301 => 'Moved Permanently',
+            302 => 'Found',
+            303 => 'See Other',
+            304 => 'Not Modified',
+            305 => 'Use Proxy',
+            307 => 'Temporary Redirect',
+
+            400 => 'Bad Request',
+            401 => 'Unauthorized',
+            402 => 'Payment Required',
+            403 => 'Forbidden',
+            404 => 'Not Found',
+            405 => 'Method Not Allowed',
+            406 => 'Not Acceptable',
+            407 => 'Proxy Authentication Required',
+            408 => 'Request Timeout',
+            409 => 'Conflict',
+            410 => 'Gone',
+            411 => 'Length Required',
+            412 => 'Precondition Failed',
+            413 => 'Request Entity Too Large',
+            414 => 'Request-URI Too Long',
+            415 => 'Unsupported Media Type',
+            416 => 'Requested Range Not Satisfiable',
+            417 => 'Expectation Failed',
+            422 => 'Unprocessable Entity',
+            426 => 'Upgrade Required',
+            428 => 'Precondition Required',
+            429 => 'Too Many Requests',
+            431 => 'Request Header Fields Too Large',
+
+            500 => 'Internal Server Error',
+            501 => 'Not Implemented',
+            502 => 'Bad Gateway',
+            503 => 'Service Unavailable',
+            504 => 'Gateway Timeout',
+            505 => 'HTTP Version Not Supported',
+            511 => 'Network Authentication Required',
+        );
+        $code = $this->configs['statusCode'];
+        $text = isset($statusTexts[$code]) ? $statusTexts[$code] : '';
+
         // status
-        header(sprintf('HTTP/%s %s %s', $this->configs['version'], $this->configs['statusCode'], $this->getStatusText()), TRUE, $this->configs['statusCode']);
+        header(sprintf('HTTP/%s %s %s', $this->configs['version'], $code, $text), TRUE, $code);
 
         // Content-Type
         // if Content-Type is already exists in headers, then don't send it
@@ -104,7 +144,7 @@ class Response
 
         // headers
         foreach ($this->configs['headers'] as $name => $value) {
-            header($name . ': ' . $value, TRUE, $this->configs['statusCode']);
+            header($name . ': ' . $value, TRUE, $code);
         }
 
         return $this;
@@ -156,16 +196,5 @@ class Response
     {
         $this->configs['statusCode'] = $code;
         return $this;
-    }
-
-    /**
-     * Get status code relevant text.
-     *
-     * @return string
-     */
-    public function getStatusText()
-    {
-        $code = $this->configs['statusCode'];
-        return isset($this->statusTexts[$code]) ? $this->statusTexts[$code] : '';
     }
 }
