@@ -50,7 +50,7 @@ class Loader
      * @param $class
      * @return false|int|string
      */
-    private function is_loaded($class)
+    private function isLoaded($class)
     {
         return array_search($this->_classes, $class, TRUE);
     }
@@ -62,13 +62,13 @@ class Loader
     {
         static $_classes;
 
-        if (($class = $this->is_loaded($class)) === FALSE)
+        if (($class = $this->isLoaded($class)) === FALSE)
             $_classes[$class] = new $class;
 
         return $this->_classes[$class];
     }
 
-    public function load_library($class)
+    public function loadLibrary($class)
     {
         $this->load($class);
     }

@@ -11,10 +11,6 @@ namespace Core;
  */
 class Session
 {
-    public function __construct()
-    {
-    }
-
     /**
      * Starts the session if not started yet.
      */
@@ -26,7 +22,7 @@ class Session
     }
 
     /**
-     * set session key and value
+     * Set session key and value
      *
      * @param $key
      * @param $value
@@ -37,7 +33,7 @@ class Session
     }
 
     /**
-     * get session value by $key
+     * Get session value by $key
      *
      * @param  $key
      * @return mixed

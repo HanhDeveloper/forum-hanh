@@ -33,6 +33,7 @@ class View
 
     /**
      * View constructor.
+     *
      * @param Loader $loader
      */
     public function __construct(Loader $loader)
@@ -42,6 +43,11 @@ class View
         $this->response = $loader->response();
         $loader = new \Twig_Loader_Filesystem(BASE_DIR . '/views');
         $this->twig = new \Twig_Environment($loader);
+        $this->registerFunc();
+    }
+
+    private function registerFunc()
+    {
         $this->twig->addFunction(new \Twig_SimpleFunction('asset', function ($uri = '') {
             return 'http://localhost/' . $uri;
         }));
