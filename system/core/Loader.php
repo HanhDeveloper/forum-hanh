@@ -43,7 +43,7 @@ class Loader
      */
     public function view()
     {
-        return new View($this->request(), $this->response());
+        return new View($this);
     }
 
     /**

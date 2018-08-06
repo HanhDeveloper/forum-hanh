@@ -33,15 +33,13 @@ class View
 
     /**
      * View constructor.
-     *
-     * @param Request  $request
-     * @param Response $response
+     * @param Loader $loader
      */
-    public function __construct(Request $request, Response $response)
+    public function __construct(Loader $loader)
     {
         // initialization of the required object
-        $this->request = $request;
-        $this->response = $response;
+        $this->request = $loader->request();
+        $this->response = $loader->response();
         $loader = new \Twig_Loader_Filesystem(BASE_DIR . '/views');
         $this->twig = new \Twig_Environment($loader);
         $this->twig->addFunction(new \Twig_SimpleFunction('asset', function ($uri = '') {
