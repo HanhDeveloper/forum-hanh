@@ -2,8 +2,8 @@ vendor/*
 composer.phar
 composer.lock
 .gitattributes
-.idea/forum-hanh.iml
 .idea/misc.xml
 .idea/modules.xml
 .idea/php.xml
 .idea/workspace.xml
+.idea/*.iml
