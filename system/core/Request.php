@@ -20,7 +20,7 @@ class Request
      *
      * @var bool
      */
-    protected $_enable_xss = FALSE;
+    protected $_enable_xss = false;
 
     /**
      * Fetch from array
@@ -32,7 +32,7 @@ class Request
      * @param bool  $xss_clean Whether to apply XSS filtering
      * @return mixed
      */
-    protected function _fetch_from_array(&$array, $index = NULL, $xss_clean = NULL)
+    protected function _fetch_from_array(&$array, $index = null, $xss_clean = null)
     {
         is_bool($xss_clean) OR $xss_clean = $this->_enable_xss;
 
@@ -64,14 +64,14 @@ class Request
                 if (isset($value[$key])) {
                     $value = $value[$key];
                 } else {
-                    return NULL;
+                    return null;
                 }
             }
         } else {
-            return NULL;
+            return null;
         }
 
-        return ($xss_clean === TRUE)
+        return ($xss_clean === true)
             ? $this->security->xss_clean($value)
             : $value;
     }
@@ -85,7 +85,7 @@ class Request
      * @param bool  $xss_clean Whether to apply XSS filtering
      * @return mixed
      */
-    public function get($index = NULL, $xss_clean = NULL)
+    public function get($index = null, $xss_clean = null)
     {
         return $this->_fetch_from_array($_GET, $index, $xss_clean);
     }
@@ -99,7 +99,7 @@ class Request
      * @param bool  $xss_clean Whether to apply XSS filtering
      * @return mixed
      */
-    public function post($index = NULL, $xss_clean = NULL)
+    public function post($index = null, $xss_clean = null)
     {
         return $this->_fetch_from_array($_POST, $index, $xss_clean);
     }
@@ -113,7 +113,7 @@ class Request
      * @param bool   $xss_clean Whether to apply XSS filtering
      * @return mixed
      */
-    public function post_get($index, $xss_clean = NULL)
+    public function post_get($index, $xss_clean = null)
     {
         return isset($_POST[$index])
             ? $this->post($index, $xss_clean)
@@ -129,7 +129,7 @@ class Request
      * @param bool   $xss_clean Whether to apply XSS filtering
      * @return mixed
      */
-    public function get_post($index, $xss_clean = NULL)
+    public function get_post($index, $xss_clean = null)
     {
         return isset($_GET[$index])
             ? $this->get($index, $xss_clean)
@@ -146,7 +146,7 @@ class Request
         if (! empty($_SERVER['HTTP_X_REQUESTED_WITH'])) {
             return strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest';
         }
-        return FALSE;
+        return false;
     }
 
     /**

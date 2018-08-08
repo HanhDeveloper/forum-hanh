@@ -29,7 +29,6 @@ class Logger
         $err .= $message . "\n*******************************************************************\n\n";
 
         // log/write error to log file
-        if (LOG_MODE)
-            error_log($err, 3, $logfile);
+        error_log($err, 3, $logfile);
     }
 }

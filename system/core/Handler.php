@@ -53,7 +53,7 @@ class Handler
 
         $fatals = [E_USER_ERROR, E_ERROR, E_PARSE];
 
-        if (! in_array($error['type'], $fatals, TRUE)) {
+        if (! in_array($error['type'], $fatals, true)) {
             return;
         }
 
@@ -124,7 +124,7 @@ class Handler
             E_USER_WARNING      => 'User Warning',
             E_USER_NOTICE       => 'User Notice',
             E_STRICT            => 'Runtime Notice',
-            E_RECOVERABLE_ERROR => 'Catchable Fatal Error'
+            E_RECOVERABLE_ERROR => 'Catchable Fatal Error',
         );
 
         return $errortype[$errno];

@@ -134,7 +134,7 @@ class Response
         $text = isset($statusTexts[$code]) ? $statusTexts[$code] : '';
 
         // status
-        header(sprintf('HTTP/%s %s %s', $this->configs['version'], $code, $text), TRUE, $code);
+        header(sprintf('HTTP/%s %s %s', $this->configs['version'], $code, $text), true, $code);
 
         // Content-Type
         // if Content-Type is already exists in headers, then don't send it
@@ -144,7 +144,7 @@ class Response
 
         // headers
         foreach ($this->configs['headers'] as $name => $value) {
-            header($name . ': ' . $value, TRUE, $code);
+            header($name . ': ' . $value, true, $code);
         }
 
         return $this;
@@ -164,7 +164,7 @@ class Response
     /**
      * Set content for the current web response.
      *
-     * @param string $content The response content
+     * @param string $content
      * @return Response
      */
     public function setContent($content = "")
@@ -176,12 +176,12 @@ class Response
     /**
      * Set the response content-type.
      *
-     * @param string|null $contentType The response content
+     * @param string|null $contentType
      * @return Response
      */
-    public function type($contentType = NULL)
+    public function type($contentType = null)
     {
-        if ($contentType === NULL) unset($this->configs['headers']['Content-Type']);
+        if ($contentType === null) unset($this->configs['headers']['Content-Type']);
         else  $this->configs['headers']['Content-Type'] = $contentType;
         return $this;
     }

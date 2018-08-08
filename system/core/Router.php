@@ -44,12 +44,12 @@ class Router extends RouteCollector
      * @param string $requestMethod
      * @param string $requestUrl
      */
-    public function match($requestMethod = NULL, $requestUrl = NULL)
+    public function match($requestMethod = null, $requestUrl = null)
     {
         //NB. You can cache the return value from $router->getData() so you don't have to create the routes each request - massive speed gains
         $this->dispatcher = new Dispatcher($this->getData());
-        $requestMethod = $requestMethod == NULL ? $_SERVER['REQUEST_METHOD'] : $requestMethod;
-        $requestUrl = $requestUrl == NULL ? $_SERVER['REQUEST_URI'] : $requestUrl;
+        $requestMethod = $requestMethod == null ? $_SERVER['REQUEST_METHOD'] : $requestMethod;
+        $requestUrl = $requestUrl == null ? $_SERVER['REQUEST_URI'] : $requestUrl;
         $requestUri = str_replace($this->basePath, '', parse_url($requestUrl, PHP_URL_PATH));
         $this->dispatcher->dispatch($requestMethod, $requestUri);
     }

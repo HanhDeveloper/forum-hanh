@@ -52,7 +52,7 @@ class Loader
      */
     private function isLoaded($class)
     {
-        return array_search($this->_classes, $class, TRUE);
+        return array_search($this->_classes, $class, true);
     }
 
     /**
@@ -62,7 +62,7 @@ class Loader
     {
         static $_classes;
 
-        if (($class = $this->isLoaded($class)) === FALSE)
+        if (($class = $this->isLoaded($class)) === false)
             $_classes[$class] = new $class;
 
         return $this->_classes[$class];

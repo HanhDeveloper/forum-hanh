@@ -35,8 +35,8 @@ class App
         try {
             $this->router->match();
         } catch (\Exception $e) {
+            if (LOG_MODE) Logger::log($e->getMessage());
             print $e;
-            Logger::log($e->getMessage());
         }
     }
 }

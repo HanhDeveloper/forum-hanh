@@ -27,9 +27,9 @@ class View
     private $twig;
 
     /**
-     * @var string
+     * Extended for templates file
      */
-    private $ext = '.html';
+    const EXT = '.html';
 
     /**
      * View constructor.
@@ -41,8 +41,8 @@ class View
         // initialization of the required object
         $this->request = $loader->request();
         $this->response = $loader->response();
-        $loader = new \Twig_Loader_Filesystem(BASE_DIR . '/views');
-        $this->twig = new \Twig_Environment($loader);
+        $twig_loader_filesystem = new \Twig_Loader_Filesystem(BASE_DIR . '/views');
+        $this->twig = new \Twig_Environment($twig_loader_filesystem);
         $this->registerFunc();
     }
 
@@ -64,7 +64,7 @@ class View
      */
     public function render($name, array $context = array())
     {
-        $name .= $this->ext;
+        $name = str_replace(self::EXT, '', $name) . self::EXT;
         $template = call_user_func_array(array($this->twig, 'render'), array($name, $context));
         $this->response->setContent($template);
     }
@@ -101,11 +101,12 @@ class View
      * @param $name
      * @param $args
      * @return mixed
+     * @throws \Exception
      */
     public function __call($name, $args)
     {
         if (! method_exists($this->twig, $name))
-            throw new \RuntimeException("Does not have a method: $name");
+            throw new \Exception("Does not have a method: $name");
 
         return call_user_func_array(array($this->twig, $name), $args);
     }
