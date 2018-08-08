@@ -34,7 +34,7 @@ class Response
      */
     public function __construct(array $configs = array())
     {
-        array_merge($this->configs, $configs);
+        $this->configs = array_merge($this->configs, $configs);
     }
 
     /**
