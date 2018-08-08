@@ -9,8 +9,9 @@ use Core\DB;
 
 class ChatModel extends DB
 {
-    public static function getMessages($index = 1)
+    public static function getMessages($index = 0)
     {
+        $index or $index = 0;
         return self::table('chats')
             ->join('users', 'chats.user_id', '=', 'users.id')
             ->where('chats.id', '>', $index)
@@ -18,10 +19,15 @@ class ChatModel extends DB
             ->get();
     }
 
-    public static function saveToDb($msg)
+    public static function saveToDb(array $input)
     {
-        self::table('chats')->insert(
-            ['user_id' => 2, 'message' => $msg, 'time' => time()]
+        $values = array(
+            'user_id' => 2,
+            'message' => '',
+            'time'    => time(),
         );
+        $values = array_merge($values, $input);
+        self::table('chats')->insert($values);
+        return $values;
     }
 }

@@ -6,6 +6,7 @@
 namespace Hanh;
 
 use Core\Controller;
+use Core\Session;
 use hanh\Model\BotModel;
 use hanh\Model\ChatModel;
 
@@ -19,9 +20,9 @@ class Chat extends Controller
     public function postMessages()
     {
         $first_id = $this->request->post('first_id');
-        $last_id = $this->request->post('last_id') ? $this->request->post('last_id') : 0;
+        $last_id = $this->request->post('last_id');
         $this->view->renderJson([
-            'success'   => TRUE,
+            'success'   => true,
             '$first_id' => $first_id,
             '$last_id'  => $last_id,
             'result'    => ChatModel::getMessages($last_id),
@@ -30,13 +31,14 @@ class Chat extends Controller
 
     public function postSave()
     {
+        //Session::set('user_id', 3);
         $message = $this->request->post('msg');
-        ChatModel::saveToDb($message);
+        ChatModel::saveToDb(['message' => $message, 'user_id' => Session::getUserId()]);
         $reply = BotModel::botReply($message);
-        ChatModel::saveToDb($reply);
+        $result = ChatModel::saveToDb(['message' => $reply]);
         $this->view->renderJson([
-            'success' => TRUE,
-            'result'  => $message,
+            'success' => true,
+            'result'  => $result,
         ]);
     }
 }
