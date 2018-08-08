@@ -24,8 +24,7 @@ class Loader
     public function request()
     {
         static $request;
-        is_object($request) or $request = new Request();
-        return $request;
+        return $request ?? $request = new Request();
     }
 
     /**
@@ -34,8 +33,7 @@ class Loader
     public function response()
     {
         static $response;
-        is_object($response) or $response = new Response();
-        return $response;
+        return $response ?? $response = new Response();
     }
 
     /**

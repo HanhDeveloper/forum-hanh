@@ -24,7 +24,6 @@ class App
         // initialize the router object
         $this->router = new Router();
         $this->router->setBasePath('/hanh-dev');
-        $this->router->initialize();
     }
 
     /**
@@ -33,7 +32,7 @@ class App
     public function run()
     {
         try {
-            $this->router->match();
+            $this->router->start();
         } catch (\Exception $e) {
             if (LOG_MODE) Logger::log($e->getMessage());
             print $e;

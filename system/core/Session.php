@@ -28,7 +28,7 @@ class Session
      */
     public static function getIsLoggedIn()
     {
-        return isset($_SESSION['is_logged_in']) && is_bool($_SESSION['is_logged_in']) ? $_SESSION['is_logged_in'] : false;
+        return (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true);
     }
 
     /**
@@ -52,34 +52,76 @@ class Session
     }
 
     /**
-     * Set session key and value
+     * Sets session key and value
      *
-     * @param $key
+     * @param $data
      * @param $value
      */
-    public static function set($key, $value)
+    public static function set($data, $value = null)
     {
-        $_SESSION[$key] = $value;
+        if (is_array($data)) {
+            foreach ($data as $key => &$value) {
+                $_SESSION[$key] = $value;
+            }
+            return;
+        }
+
+        $_SESSION[$data] = $value;
     }
 
     /**
-     * Get session value by $key
+     * Get value that has been set in the session.
      *
-     * @param  $key
+     * @param string $key
      * @return mixed|null
      */
-    public static function get($key)
+    public static function get(string $key)
     {
-        return isset($_SESSION[$key]) ? $_SESSION[$key] : null;
+        if (! empty($key) && $value = array_search($key, $_SESSION)) {
+            return $value;
+        } elseif (empty($_SESSION)) {
+            return [];
+        }
+
+        if (! empty($key)) {
+            return null;
+        }
+    }
+
+    /**
+     * Returns whether an index exists in the session array.
+     *
+     * @param string $key
+     * @return bool
+     */
+    public function has(string $key)
+    {
+        return isset($_SESSION[$key]);
+    }
+
+    /**
+     * Remove one or more session properties.
+     *
+     * @param $key
+     */
+    public function remove($key)
+    {
+        if (is_array($key)) {
+            foreach ($key as $k) {
+                unset($_SESSION[$k]);
+            }
+            return;
+        }
+
+        unset($_SESSION[$key]);
     }
 
     /**
      * reset session id, delete session file on server, and re-assign the values.
      *
-     * @param  array $data
-     * @return string
+     * @param array $data
      */
-    public static function reset($data)
+    public static function reset(array $data)
     {
         // remove old and regenerate session ID.
         session_regenerate_id(true);

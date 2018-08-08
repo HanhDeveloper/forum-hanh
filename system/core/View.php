@@ -29,7 +29,7 @@ class View
     /**
      * Extended for templates file
      */
-    const EXT = '.html';
+    private const EXT = '.html';
 
     /**
      * View constructor.
@@ -62,11 +62,11 @@ class View
      * @param string $name
      * @param array  $context
      */
-    public function render($name, array $context = array())
+    public function render(string $name, array $context = array())
     {
         $name = str_replace(self::EXT, '', $name) . self::EXT;
         $template = call_user_func_array(array($this->twig, 'render'), array($name, $context));
-        $this->response->setContent($template);
+        $this->response->setBody($template);
     }
 
     /**
@@ -76,10 +76,10 @@ class View
      * @return string  Rendered output
      *
      */
-    public function renderJson($data)
+    public function renderJson(array $data)
     {
         $jsonData = $this->jsonEncode($data);
-        $this->response->type('application/json')->setContent($jsonData);
+        $this->response->setContentType('application/json')->setBody($jsonData);
         return $jsonData;
     }
 
@@ -101,12 +101,11 @@ class View
      * @param $name
      * @param $args
      * @return mixed
-     * @throws \Exception
      */
     public function __call($name, $args)
     {
         if (! method_exists($this->twig, $name))
-            throw new \Exception("Does not have a method: $name");
+            throw new \RuntimeException("Does not have a method: $name");
 
         return call_user_func_array(array($this->twig, $name), $args);
     }

@@ -36,7 +36,7 @@ class Controller
      */
     public function __construct()
     {
-        // initialization of the required object
+        // Initialize the required objects and starts up it
         $this->load = new Loader();
         $this->request = $this->load->request();
         $this->response = $this->load->response();
@@ -45,7 +45,7 @@ class Controller
     }
 
     /**
-     * Display to user browser.
+     * Sends response to the browser.
      */
     public function __destruct()
     {
