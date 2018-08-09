@@ -14,12 +14,12 @@ class Controller
     /**
      * @var Request
      */
-    protected $request;
+    public $request;
 
     /**
      * @var Response
      */
-    protected $response;
+    public $response;
 
     /**
      * @var Loader
@@ -32,15 +32,16 @@ class Controller
     protected $view;
 
     /**
-     * Controller constructor.
+     * Initialize the required objects and starts up it
+     *
+     * @param Loader $loader
      */
-    public function __construct()
+    public function init(Loader $loader)
     {
-        // Initialize the required objects and starts up it
-        $this->load = new Loader();
+        $this->load = $loader;
         $this->request = $this->load->request();
         $this->response = $this->load->response();
-        $this->view = $this->load->view();
+        $this->view = new View($this);
         $this->load->database();
     }
 

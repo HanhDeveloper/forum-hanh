@@ -12,14 +12,9 @@ namespace Core;
 class View
 {
     /**
-     * @var Request
+     * @var Controller
      */
-    private $request;
-
-    /**
-     * @var Response
-     */
-    private $response;
+    private $controller;
 
     /**
      * @var \Twig_Environment
@@ -34,13 +29,12 @@ class View
     /**
      * View constructor.
      *
-     * @param Loader $loader
+     * @param Controller $controller
      */
-    public function __construct(Loader $loader)
+    public function __construct(Controller $controller)
     {
         // initialization of the required object
-        $this->request = $loader->request();
-        $this->response = $loader->response();
+        $this->controller = $controller;
         $twig_loader_filesystem = new \Twig_Loader_Filesystem(BASE_DIR . '/views');
         $this->twig = new \Twig_Environment($twig_loader_filesystem);
         $this->registerFunc();
@@ -61,12 +55,14 @@ class View
      *
      * @param string $name
      * @param array  $context
+     * @return string  Rendered output
      */
     public function render(string $name, array $context = array())
     {
         $name = str_replace(self::EXT, '', $name) . self::EXT;
         $template = call_user_func_array(array($this->twig, 'render'), array($name, $context));
-        $this->response->setBody($template);
+        $this->controller->response->setBody($template);
+        return $template;
     }
 
     /**
@@ -79,7 +75,7 @@ class View
     public function renderJson(array $data)
     {
         $jsonData = $this->jsonEncode($data);
-        $this->response->setContentType('application/json')->setBody($jsonData);
+        $this->controller->response->setContentType('application/json')->setBody($jsonData);
         return $jsonData;
     }
 

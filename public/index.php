@@ -1,23 +1,13 @@
 <?php
-
-/*
-|--------------------------------------------------------------------------
-| Autoload
-|--------------------------------------------------------------------------
-|
-| After running "composer install", we can use the autoloader file created.
-|
-*/
-
-require '../vendor/autoload.php';
-
-require '../system/Common.php';
+/**
+ * @author: Hanh <hanh.cho.do@gmail.com>
+ */
 
 /*
 |--------------------------------------------------------------------------
 | Define Application Configuration Constants
 |--------------------------------------------------------------------------
-| 
+|
 | PUBLIC_ROOT: 	the root URL for the application (see below).
 | BASE_DIR: 	path to the directory that has all of your "app", "public", "vendor", ... directories.
 | IMAGES:		path to upload images, don't use it for displaying images, use Config::get('root') . "/img/" instead.
@@ -25,53 +15,23 @@ require '../system/Common.php';
 |
 */
 
-// Config::set('base', str_replace("\\", "/", dirname(__DIR__)));
-// Config::set('images', str_replace("\\", "/", __DIR__) . "/img/");
-// Config::set('app', Config::get('base') . "/app/");
-
+//define('BASE_DIR', __DIR__ . DIRECTORY_SEPARATOR);
 define('BASE_DIR', str_replace("\\", "/", dirname(__DIR__)));
 
 /*
-|--------------------------------------------------------------------------
-| Register Error & Exception handlers
-|--------------------------------------------------------------------------
-|
-| Here we will register the methods that will fire whenever there is an error
-| or an exception has been thrown.
-|
-*/
+ |---------------------------------------------------------------
+ | BOOTSTRAP THE APPLICATION
+ |---------------------------------------------------------------
+ | This process sets up the path constants
+ | Loads and registers autoloader with Composer's.
+ */
 
-//\core\Handler::register();
+$app = require '../system/bootstrap.php';
 
 /*
-|--------------------------------------------------------------------------
-| Start Session
-|--------------------------------------------------------------------------
-|
-*/
-
-\Core\Session::init();
-
-/*
-|--------------------------------------------------------------------------
-| Create The Application
-|--------------------------------------------------------------------------
-|
-| Here we will create the application instance which will take care of routing 
-| the incoming request to the corresponding controller and action method if valid
-|
-*/
-
-$app = new \Core\App();
-
-/*
-|--------------------------------------------------------------------------
-| Run The Application
-|--------------------------------------------------------------------------
-| 
-| Once we have the application instance, we can handle the incoming request
-| and send a response back to the client's browser.
-|
-*/
+ |---------------------------------------------------------------
+ | LAUNCH THE APPLICATION
+ |---------------------------------------------------------------
+ */
 
 $app->run();

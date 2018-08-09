@@ -27,12 +27,17 @@ class Router extends RouteCollector
     private $basePath = '';
 
     /**
+     * @var Loader
+     */
+    private $loader;
+
+    /**
      * Initializer.
      */
-    public function start()
+    public function init(Loader $loader)
     {
+        $this->loader = $loader;
         $this->getRoutes();
-        $this->match();
     }
 
     /**
@@ -52,15 +57,16 @@ class Router extends RouteCollector
      *
      * @param string $requestMethod
      * @param string $requestUrl
+     * @return mixed|null
      */
-    public function match(string $requestMethod = null, string $requestUrl = null)
+    public function output(string $requestMethod = null, string $requestUrl = null)
     {
         //NB. You can cache the return value from $router->getData() so you don't have to create the routes each request - massive speed gains
-        $this->dispatcher = new Dispatcher($this->getData());
+        $this->dispatcher = new Dispatcher($this->getData(), new RouterResolver($this->loader));
         $requestMethod = $requestMethod ?? $_SERVER['REQUEST_METHOD'];
         $requestUrl = parse_url($requestUrl ?? $_SERVER['REQUEST_URI'], PHP_URL_PATH);
         $requestUri = str_replace($this->basePath, '', $requestUrl);
-        $this->dispatcher->dispatch($requestMethod, $requestUri);
+        return $this->dispatcher->dispatch($requestMethod, $requestUri);
     }
 
     /**
@@ -68,26 +74,7 @@ class Router extends RouteCollector
      */
     private function getRoutes()
     {
-        $this->any('/', function () {
-            echo 'This responds to the default route';
-        });
+        $this->controller('/', 'Hanh\\Chat');
         $this->controller('/chat', 'Hanh\\Chat');
-    }
-
-    /**
-     * Magic assessor for Router auto loading.
-     *
-     * @param $name
-     * @param $args
-     * @return mixed
-     */
-    public function __call($name, $args)
-    {
-        if (method_exists($this, $name))
-            return call_user_func_array(array($this, $name), $args);
-        elseif (method_exists($this->dispatcher, $name))
-            return call_user_func_array(array($this->dispatcher, $name), $args);
-        else
-            throw new \RuntimeException("Does not have a method: $name");
     }
 }
