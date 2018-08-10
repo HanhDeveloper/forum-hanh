@@ -3,17 +3,21 @@
  * @author: Hanh <hanh.cho.do@gmail.com>
  */
 
-namespace core;
+namespace HDev\Router;
 
+use HDev\HTTP\Request;
+use HDev\HTTP\Response;
 use Phroute\Phroute\HandlerResolverInterface;
 
 class RouterResolver implements HandlerResolverInterface
 {
-    private $loader;
+    private $request;
+    private $response;
 
-    public function __construct(Loader $loader)
+    public function __construct(Request $request, Response $response)
     {
-        $this->loader = $loader;
+        $this->request = $request;
+        $this->response = $response;
     }
 
     /**
@@ -26,7 +30,7 @@ class RouterResolver implements HandlerResolverInterface
     {
         if (is_array($handler) and is_string($handler[0])) {
             $handler[0] = new $handler[0];
-            $handler[0]->init($this->loader);
+            $handler[0]->initController($this->request, $this->response);
         }
 
         return $handler;

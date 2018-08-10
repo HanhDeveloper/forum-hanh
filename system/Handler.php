@@ -3,7 +3,7 @@
  * @author: Hanh <hanh.cho.do@gmail.com>
  */
 
-namespace core;
+namespace HDev;
 
 class Handler
 {

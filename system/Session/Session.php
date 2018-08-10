@@ -3,12 +3,8 @@
  * @author: Hanh <hanh.cho.do@gmail.com>
  */
 
-namespace Core;
+namespace HDev\Session;
 
-/**
- * Class Session
- * @package Core
- */
 class Session
 {
     /**
@@ -83,9 +79,7 @@ class Session
             return [];
         }
 
-        if (! empty($key)) {
-            return null;
-        }
+        return null;
     }
 
     /**

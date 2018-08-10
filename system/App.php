@@ -3,23 +3,20 @@
  * @author: Hanh <hanh.cho.do@gmail.com>
  */
 
-namespace Core;
+namespace HDev;
 
-/**
- * Class App
- * @package Core
- */
+use HDev\HTTP\Request;
+use HDev\HTTP\Response;
+use HDev\Loader\Loader;
+use HDev\Log\Logger;
+use HDev\Router\Router;
+
 class App
 {
     /**
      * The current version of Framework
      */
     const VERSION = '1.0-dev';
-
-    /**
-     * @var Router
-     */
-    private $router;
 
     /**
      * @var Request
@@ -42,6 +39,9 @@ class App
     public function __construct()
     {
         $this->load = new Loader();
+        $this->request = $this->load->request();
+        $this->response = $this->load->response();
+        $this->load->database();
     }
 
     /**
@@ -50,11 +50,11 @@ class App
     public function run()
     {
         try {
-            $this->initRouter();
-            return $this->handleRequest($this->router);
+            $router = $this->initRouter();
+            return $this->handleRequest($router);
         } catch (\Exception $e) {
             if (LOG_MODE) Logger::log($e->getMessage());
-            print $e;
+            print $e->getMessage();
         }
     }
 
@@ -67,18 +67,21 @@ class App
      */
     private function handleRequest(Router $router, bool $return = false)
     {
-        // Initialize request, response objects
-        $this->request = $this->load->request();
-        $this->response = $this->load->response();
         $router->output();
-
+        // Sends response to the browser.
+        $this->response->send();
     }
 
+    /**
+     * @return Router|\Phroute\Phroute\RouteCollector
+     */
     private function initRouter()
     {
-        $router = new Router();
-        $router->init($this->load);
+        $router = new \Phroute\Phroute\RouteCollector();
+        $router->controller('/', 'Hanh\\Chat');
+        $router->controller('/chat', 'Hanh\\Chat');
+        $router = new Router($router->getData(), null, $this->request, $this->response);
         $router->setBasePath('/hanh-dev');
-        $this->router = $router;
+        return $router;
     }
 }

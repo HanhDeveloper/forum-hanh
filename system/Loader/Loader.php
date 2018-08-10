@@ -3,14 +3,12 @@
  * @author: Hanh <hanh.cho.do@gmail.com>
  */
 
-namespace core;
+namespace HDev\Loader;
 
+use HDev\HTTP\Request;
+use HDev\HTTP\Response;
 use Illuminate\Database\Capsule\Manager as Capsule;
 
-/**
- * Class Loader
- * @package core
- */
 class Loader
 {
     /**
@@ -34,14 +32,6 @@ class Loader
     {
         static $response;
         return $response ?? $response = new Response();
-    }
-
-    /**
-     * View class
-     */
-    public function view()
-    {
-        return new View($this);
     }
 
     /**

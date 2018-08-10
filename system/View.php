@@ -3,12 +3,8 @@
  * @author: Hanh <hanh.cho.do@gmail.com>
  */
 
-namespace Core;
+namespace HDev;
 
-/**
- * Class View
- * @package Core
- */
 class View
 {
     /**

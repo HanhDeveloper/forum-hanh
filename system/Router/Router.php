@@ -3,22 +3,16 @@
  * @author: Hanh <hanh.cho.do@gmail.com>
  */
 
-namespace Core;
+namespace HDev\Router;
 
+use HDev\HTTP\Request;
+use HDev\HTTP\Response;
 use Phroute\Phroute\Dispatcher;
-use Phroute\Phroute\RouteCollector;
+use Phroute\Phroute\HandlerResolverInterface;
+use Phroute\Phroute\RouteDataInterface;
 
-/**
- * Class Router
- * @package core
- */
-class Router extends RouteCollector
+class Router extends Dispatcher
 {
-    /**
-     * @var Dispatcher
-     */
-    private $dispatcher;
-
     /**
      * The base REQUEST_URI.
      *
@@ -27,17 +21,18 @@ class Router extends RouteCollector
     private $basePath = '';
 
     /**
-     * @var Loader
+     * Override constructor.
+     *
+     * @param RouteDataInterface            $data
+     * @param HandlerResolverInterface|null $resolver
+     * @param Request                       $request
+     * @param Response                      $response
      */
-    private $loader;
-
-    /**
-     * Initializer.
-     */
-    public function init(Loader $loader)
+    public function __construct(RouteDataInterface $data, HandlerResolverInterface $resolver = null, Request $request, Response $response)
     {
-        $this->loader = $loader;
-        $this->getRoutes();
+        if (is_null($resolver))
+            $resolver = new RouterResolver($request, $response);
+        parent::__construct($data, $resolver);
     }
 
     /**
@@ -62,19 +57,9 @@ class Router extends RouteCollector
     public function output(string $requestMethod = null, string $requestUrl = null)
     {
         //NB. You can cache the return value from $router->getData() so you don't have to create the routes each request - massive speed gains
-        $this->dispatcher = new Dispatcher($this->getData(), new RouterResolver($this->loader));
         $requestMethod = $requestMethod ?? $_SERVER['REQUEST_METHOD'];
         $requestUrl = parse_url($requestUrl ?? $_SERVER['REQUEST_URI'], PHP_URL_PATH);
         $requestUri = str_replace($this->basePath, '', $requestUrl);
-        return $this->dispatcher->dispatch($requestMethod, $requestUri);
-    }
-
-    /**
-     * This registers the route to the store.
-     */
-    private function getRoutes()
-    {
-        $this->controller('/', 'Hanh\\Chat');
-        $this->controller('/chat', 'Hanh\\Chat');
+        return $this->dispatch($requestMethod, $requestUri);
     }
 }

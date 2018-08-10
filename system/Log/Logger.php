@@ -3,12 +3,8 @@
  * @author: Hanh <hanh.cho.do@gmail.com>
  */
 
-namespace Core;
+namespace HDev\Log;
 
-/**
- * Class Logger
- * @package core
- */
 class Logger
 {
     /**

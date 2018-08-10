@@ -5,17 +5,16 @@
 
 namespace Hanh\Model;
 
-use Core\DB;
+use HDev\Model;
 
-class ChatModel extends DB
+class ChatModel extends Model
 {
     public static function getMessages($index = 0)
     {
-        $index or $index = 0;
-        return self::table('chats')
-            ->join('users', 'chats.user_id', '=', 'users.id')
-            ->where('chats.id', '>', $index)
-            ->select('chats.id', 'chats.user_id', 'chats.message', 'chats.time', 'users.fullname')
+        return self::table('chatbox')
+            ->join('users', 'chatbox.user_id', '=', 'users.id')
+            ->where('chatbox.id', '>', $index ?? $index = 0)
+            ->select('chatbox.id', 'chatbox.user_id', 'chatbox.message', 'chatbox.time', 'users.fullname')
             ->get();
     }
 
@@ -27,7 +26,7 @@ class ChatModel extends DB
             'time'    => time(),
         );
         $values = array_merge($values, $input);
-        self::table('chats')->insert($values);
+        self::table('chatbox')->insert($values);
         return $values;
     }
 }

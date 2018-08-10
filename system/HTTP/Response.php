@@ -3,12 +3,8 @@
  * @author: Hanh <hanh.cho.do@gmail.com>
  */
 
-namespace Core;
+namespace HDev\HTTP;
 
-/**
- * Class Response
- * @package Core
- */
 class Response
 {
     /**

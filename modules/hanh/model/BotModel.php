@@ -5,13 +5,13 @@
 
 namespace Hanh\Model;
 
-use Core\DB;
+use HDev\Model;
 
-class BotModel extends DB
+class BotModel extends Model
 {
     public static function botReply($msg)
     {
-        $bot = self::table('simi')
+        $bot = self::table('chatbox_simi')
             ->where('ask', $msg)
             ->select('ans')
             ->first();

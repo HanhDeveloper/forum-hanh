@@ -32,7 +32,7 @@ require 'Common.php';
 |
 */
 
-//\core\Handler::register();
+//\HDev\Handler::register();
 
 /*
 |--------------------------------------------------------------------------
@@ -41,7 +41,7 @@ require 'Common.php';
 |
 */
 
-\Core\Session::init();
+\HDev\Session\Session::init();
 
 /*
 |--------------------------------------------------------------------------
@@ -53,6 +53,6 @@ require 'Common.php';
 |
 */
 
-$app = new \Core\App();
+$app = new \HDev\App();
 
 return $app;

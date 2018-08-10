@@ -37,7 +37,8 @@
                 messages: [],
                 txt: '',
                 ajaxRequest: false,
-                last_id: 0
+                last_id: 0,
+                pingRequest: true,
             },
             created: function () {
                 this.getMessages();
@@ -66,7 +67,17 @@
                     });
                 },
                 ping: function () {
-                    setInterval(this.getMessages, 1000);
+                    var self = this;
+                    $(window).focus(function () {
+                        self.pingRequest = true;
+                    });
+                    $(window).blur(function () {
+                        self.pingRequest = false;
+                    });
+                    setInterval(function () {
+                        if (self.pingRequest)
+                            self.getMessages();
+                    }, 1000);
                 }
             },
             computed: {
