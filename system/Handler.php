@@ -111,7 +111,7 @@ class Handler
     {
 
         // define an assoc array of error string
-        $errortype = array(
+        $errortype = [
             E_ERROR             => 'Error',
             E_WARNING           => 'Warning',
             E_PARSE             => 'Parsing Error',
@@ -125,7 +125,7 @@ class Handler
             E_USER_NOTICE       => 'User Notice',
             E_STRICT            => 'Runtime Notice',
             E_RECOVERABLE_ERROR => 'Catchable Fatal Error',
-        );
+        ];
 
         return $errortype[$errno];
     }

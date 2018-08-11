@@ -14,7 +14,7 @@ class Loader
     /**
      * @var array
      */
-    private $_classes = array();
+    private $_classes = [];
 
     /**
      * Request class

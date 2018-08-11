@@ -111,7 +111,7 @@ class Session
     }
 
     /**
-     * reset session id, delete session file on server, and re-assign the values.
+     * Reset session id, delete session file on server, and re-assign the values.
      *
      * @param array $data
      */
@@ -119,7 +119,7 @@ class Session
     {
         // remove old and regenerate session ID.
         session_regenerate_id(true);
-        $_SESSION = array();
+        $_SESSION = [];
 
         $_SESSION['is_logged_in'] = true;
         $_SESSION['user_id'] = (int)$data['user_id'];
@@ -139,7 +139,7 @@ class Session
     public static function destroy()
     {
         // clear session data
-        $_SESSION = array();
+        $_SESSION = [];
 
         // remove session cookie
         if (ini_get("session.use_cookies")) {

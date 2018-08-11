@@ -21,12 +21,7 @@ class Controller
     public $response;
 
     /**
-     * @var View
-     */
-    protected $view;
-
-    /**
-     * Initialize the required objects and starts up it
+     * Constructor.
      *
      * @param Request  $request
      * @param Response $response
@@ -35,6 +30,5 @@ class Controller
     {
         $this->request = $request;
         $this->response = $response;
-        $this->view = new View($this);
     }
 }

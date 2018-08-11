@@ -37,7 +37,7 @@ class Request
 
         // allow fetching multiple keys at once
         if (is_array($index)) {
-            $output = array();
+            $output = [];
             foreach ($index as $key) {
                 $output[$key] = $this->_fetch_from_array($array, $key, $xss_clean);
             }

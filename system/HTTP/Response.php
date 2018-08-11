@@ -10,7 +10,7 @@ class Response
     /**
      * Holds HTTP response statuses
      */
-    private const STATUS_CODES = array(
+    private const STATUS_CODES = [
         // 1xx: Informational
         100 => 'Continue',
         101 => 'Switching Protocols',
@@ -82,7 +82,7 @@ class Response
         510 => 'Not Extended', // http://www.ietf.org/rfc/rfc2774.txt
         511 => 'Network Authentication Required', // http://www.ietf.org/rfc/rfc6585.txt
         599 => 'Network Connect Timeout Error', // https://httpstatuses.com/599
-    );
+    ];
 
     /**
      * List of all HTTP request headers.
@@ -115,17 +115,17 @@ class Response
     /**
      * @var array
      */
-    private $configs = array(
+    private $configs = [
         'version' => '1.0',
         'charset' => 'UTF-8',
-    );
+    ];
 
     /**
      * Response constructor.
      *
      * @param array $configs
      */
-    public function __construct(array $configs = array())
+    public function __construct(array $configs = [])
     {
         $this->configs = array_merge($this->configs, $configs);
     }

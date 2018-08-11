@@ -14,15 +14,15 @@ class Chat extends Controller
 {
     public function anyIndex()
     {
-        $this->view->render('chat');
+        return view('chat');
     }
 
     public function postMessages()
     {
         $last_id = $this->request->post('last_id');
-        return $this->view->renderJson([
-            'success'   => true,
-            'result'    => ChatModel::getMessages($last_id),
+        return view('json', [
+            'success' => true,
+            'result'  => ChatModel::getMessages($last_id),
         ]);
     }
 
@@ -33,7 +33,7 @@ class Chat extends Controller
         ChatModel::saveToDb(['message' => $message, 'user_id' => Session::getUserId()]);
         $reply = BotModel::botReply($message);
         $result = ChatModel::saveToDb(['message' => $reply]);
-        return $this->view->renderJson([
+        return view('json', [
             'success' => true,
             'result'  => $result,
         ]);

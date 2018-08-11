@@ -67,7 +67,7 @@ class App
      */
     private function handleRequest(Router $router, bool $return = false)
     {
-        $router->output();
+        $this->response->setBody($router->output());
         // Sends response to the browser.
         $this->response->send();
     }
