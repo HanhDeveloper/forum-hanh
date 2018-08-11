@@ -10,6 +10,7 @@
       <option name="ELSE_IF_STYLE" value="COMBINE" />
       <option name="ALIGN_CLASS_CONSTANTS" value="true" />
       <option name="SPACE_AFTER_UNARY_NOT" value="true" />
+      <option name="FORCE_SHORT_DECLARATION_ARRAY_STYLE" value="true" />
     </PHPCodeStyleSettings>
   </code_scheme>
 </component>
