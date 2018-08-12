@@ -91,7 +91,7 @@ class Session
      * @param string $key
      * @return bool
      */
-    public function has(string $key)
+    public static function has(string $key)
     {
         return isset($_SESSION[$key]);
     }
@@ -101,7 +101,7 @@ class Session
      *
      * @param $key
      */
-    public function remove($key)
+    public static function remove($key)
     {
         if (is_array($key)) {
             foreach ($key as $k) {
