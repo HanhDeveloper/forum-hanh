@@ -1,6 +1,9 @@
 <?php
 /**
- * @author: Hanh <hanh.cho.do@gmail.com>
+ * @package      HDev
+ * @author       Hanh <hanh.cho.do@gmail.com>
+ * @copyright    2018 by Hanh Developer
+ * @link         https://fb.com/hnv.97
  */
 
 namespace HDev\HTTP;
@@ -10,7 +13,7 @@ class Response
     /**
      * Holds HTTP response statuses
      */
-    private const STATUS_CODES = [
+    private $statusCodes = [
         // 1xx: Informational
         100 => 'Continue',
         101 => 'Switching Protocols',
@@ -153,7 +156,7 @@ class Response
         }
 
         // If null, will use the default provided for the status code.
-        $this->reason or $this->reason = self::STATUS_CODES[$this->statusCode];
+        $this->reason or $this->reason = $this->statusCodes[$this->statusCode];
 
         // HTTP Status
         header(sprintf('HTTP/%s %s %s', $this->configs['version'], $this->statusCode, $this->reason), true, $this->statusCode);
@@ -218,7 +221,7 @@ class Response
         if ($code < 100 || $code > 599)
             throw new \RuntimeException('Status code invalid.');
 
-        if (isset(self::STATUS_CODES[$code]))
+        if (isset($this->statusCodes[$code]))
             throw new \RuntimeException('Status code invalid.');
 
         $this->statusCode = $code;
@@ -226,7 +229,7 @@ class Response
         if (! empty($reason)) {
             $this->reason = $reason;
         } else {
-            $this->reason = self::STATUS_CODES[$code];
+            $this->reason = $this->statusCodes[$code];
         }
 
         return $this;

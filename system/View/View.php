@@ -1,6 +1,9 @@
 <?php
 /**
- * @author: Hanh <hanh.cho.do@gmail.com>
+ * @package      HDev
+ * @author       Hanh <hanh.cho.do@gmail.com>
+ * @copyright    2018 by Hanh Developer
+ * @link         https://fb.com/hnv.97
  */
 
 namespace HDev\View;
@@ -25,9 +28,9 @@ class View implements RendererInterface
     private $output;
 
     /**
-     * Extended for templates file
+     * Filename Extension
      */
-    private const EXT = '.html';
+    private $fileExt = '.html';
 
     /**
      * View constructor.
@@ -69,7 +72,7 @@ class View implements RendererInterface
             return $this;
         }
 
-        $name = str_replace(self::EXT, '', $name) . self::EXT;
+        $name = str_replace($this->fileExt, '', $name) . $this->fileExt;
         $this->output = call_user_func_array([$this->twig, 'render'], [$name, $this->data]);
         return $this;
     }
