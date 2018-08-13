@@ -1,13 +1,20 @@
 <?php
 /**
- * @package      HDev
- * @author       Hanh <hanh.cho.do@gmail.com>
- * @copyright    2018 by Hanh Developer
- * @link         https://fb.com/hnv.97
+ * Hanh Developer
+ *
+ * @package     HDev
+ * @author      Hanh <hanh.cho.do@gmail.com>
+ * @copyright   2018 by Hanh Developer
+ * @link        https://fb.com/hnv.97
+ * @filesource
  */
 
 namespace HDev\View;
 
+/**
+ * Class View
+ * @package HDev\View
+ */
 class View implements RendererInterface
 {
     /**
@@ -51,7 +58,7 @@ class View implements RendererInterface
      * Sets several pieces of view data at once.
      *
      * @param array $data
-     * @return RendererInterface
+     * @return $this
      */
     public function setData(array $data = [])
     {
@@ -63,7 +70,7 @@ class View implements RendererInterface
      * Render a template.
      *
      * @param string $name
-     * @return RendererInterface
+     * @return $this
      */
     public function render(string $name)
     {
@@ -92,7 +99,7 @@ class View implements RendererInterface
     /**
      * Removes all of the view data from the system.
      *
-     * @return RendererInterface
+     * @return $this
      */
     public function resetData()
     {
@@ -100,7 +107,10 @@ class View implements RendererInterface
         return $this;
     }
 
-    public function __toString()
+    /**
+     * @return string
+     */
+    public function getOutput()
     {
         return $this->output;
     }

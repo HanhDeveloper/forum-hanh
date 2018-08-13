@@ -1,9 +1,12 @@
 <?php
 /**
- * @package      HDev
- * @author       Hanh <hanh.cho.do@gmail.com>
- * @copyright    2018 by Hanh Developer
- * @link         https://fb.com/hnv.97
+ * Hanh Developer
+ *
+ * @package     HDev
+ * @author      Hanh <hanh.cho.do@gmail.com>
+ * @copyright   2018 by Hanh Developer
+ * @link        https://fb.com/hnv.97
+ * @filesource
  */
 
 namespace HDev;
@@ -70,7 +73,7 @@ class App
      */
     private function handleRequest(Router $router, bool $return = false)
     {
-        $this->response->setBody($router->output());
+        $this->response->setBody($router->output()->getOutput());
         // Sends response to the browser.
         $this->response->send();
     }

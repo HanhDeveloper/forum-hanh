@@ -1,9 +1,12 @@
 <?php
 /**
- * @package      HDev
- * @author       Hanh <hanh.cho.do@gmail.com>
- * @copyright    2018 by Hanh Developer
- * @link         https://fb.com/hnv.97
+ * Hanh Developer
+ *
+ * @package     HDev
+ * @author      Hanh <hanh.cho.do@gmail.com>
+ * @copyright   2018 by Hanh Developer
+ * @link        https://fb.com/hnv.97
+ * @filesource
  */
 
 namespace HDev\HTTP;
@@ -112,7 +115,7 @@ class Request
      * @param bool  $xss_clean Whether to apply XSS filtering
      * @return mixed
      */
-    protected function _fetch_from_array(&$array, $index = null, bool $xss_clean = null)
+    private function _fetch_from_array(&$array, $index = null, bool $xss_clean = null)
     {
         is_bool($xss_clean) OR $xss_clean = $this->_enable_xss;
 
