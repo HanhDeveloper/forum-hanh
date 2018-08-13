@@ -30,11 +30,6 @@ class View implements RendererInterface
     private $data = [];
 
     /**
-     * @var string
-     */
-    private $output;
-
-    /**
      * Filename Extension
      */
     private $fileExt = '.html';
@@ -58,7 +53,7 @@ class View implements RendererInterface
      * Sets several pieces of view data at once.
      *
      * @param array $data
-     * @return $this
+     * @return RendererInterface
      */
     public function setData(array $data = [])
     {
@@ -70,18 +65,19 @@ class View implements RendererInterface
      * Render a template.
      *
      * @param string $name
-     * @return $this
+     * @param string $contentType
+     * @return Entity
      */
-    public function render(string $name)
+    public function render(string $name, $contentType = ContentType::TEXT_HTML)
     {
         if ($name === 'json') {
-            $this->output = $this->jsonEncode($this->data);
-            return $this;
+            $output = $this->jsonEncode($this->data);
+            return new Entity($output, ContentType::APPLICATION_JSON);
         }
 
         $name = str_replace($this->fileExt, '', $name) . $this->fileExt;
-        $this->output = call_user_func_array([$this->twig, 'render'], [$name, $this->data]);
-        return $this;
+        $output = call_user_func_array([$this->twig, 'render'], [$name, $this->data]);
+        return new Entity($output, ContentType::TEXT_HTML);
     }
 
     /**
@@ -99,19 +95,11 @@ class View implements RendererInterface
     /**
      * Removes all of the view data from the system.
      *
-     * @return $this
+     * @return RendererInterface
      */
     public function resetData()
     {
         $this->data = [];
         return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getOutput()
-    {
-        return $this->output;
     }
 }

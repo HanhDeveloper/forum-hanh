@@ -204,10 +204,16 @@ class Response
      * Sets the Content Type header for current response.
      *
      * @param string $mime
+     * @param string $charset
      * @return Response
      */
-    public function setContentType(string $mime)
+    public function setContentType(string $mime, string $charset = 'UTF-8')
     {
+        // add charset attribute if not already there and provided as parm
+        if ((strpos($mime, 'charset=') < 1) && ! empty($charset)) {
+            $mime .= '; charset=' . $charset;
+        }
+
         $this->headers['Content-Type'] = $mime;
         return $this;
     }

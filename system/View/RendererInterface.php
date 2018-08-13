@@ -25,9 +25,10 @@ interface RendererInterface
      * Render a template.
      *
      * @param string $name
-     * @return RendererInterface
+     * @param string $contentType
+     * @return Entity
      */
-    public function render(string $name);
+    public function render(string $name, $contentType = ContentType::TEXT_HTML);
 
     /**
      * Removes all of the view data from the system.

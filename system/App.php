@@ -73,7 +73,12 @@ class App
      */
     private function handleRequest(Router $router, bool $return = false)
     {
-        $this->response->setBody($router->output()->getOutput());
+        /**
+         * @var \HDev\View\Entity
+         */
+        $entity = $router->output();
+        $this->response->setContentType($entity->getType());
+        $this->response->setBody($entity);
         // Sends response to the browser.
         $this->response->send();
     }
