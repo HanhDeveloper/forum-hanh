@@ -58,6 +58,7 @@ class Router extends Dispatcher
      *
      * @param string $requestMethod
      * @param string $requestUrl
+     *
      * @return mixed|null
      */
     public function output(string $requestMethod = null, string $requestUrl = null)

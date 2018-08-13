@@ -17,6 +17,7 @@ interface RendererInterface
      * Sets several pieces of view data at once.
      *
      * @param array $data
+     *
      * @return RendererInterface
      */
     public function setData(array $data = []);
@@ -26,9 +27,10 @@ interface RendererInterface
      *
      * @param string $name
      * @param string $contentType
+     *
      * @return Entity
      */
-    public function render(string $name, $contentType = ContentType::TEXT_HTML);
+    public function render(string $name, $contentType = null);
 
     /**
      * Removes all of the view data from the system.

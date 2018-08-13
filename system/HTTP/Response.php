@@ -11,10 +11,10 @@
 
 namespace HDev\HTTP;
 
-class Response
+class Response extends Message implements ResponseInterface
 {
     /**
-     * Holds HTTP response statuses
+     * HTTP status codes.
      */
     private $statusCodes = [
         // 1xx: Informational
@@ -112,13 +112,6 @@ class Response
     private $statusCode = 200;
 
     /**
-     * The body.
-     *
-     * @var string
-     */
-    private $body;
-
-    /**
      * @var array
      */
     private $configs = [
@@ -137,12 +130,76 @@ class Response
     }
 
     /**
-     * Sends the output to the browser.
+     * Gets the response status code.
+     *
+     * @return int Status code.
      */
-    public function send()
+    public function getStatusCode(): int
     {
-        $this->sendHeaders();
-        $this->sendBody();
+        if (empty($this->statusCode)) {
+            throw new \RuntimeException('Status code is invalid.');
+        }
+        return $this->statusCode;
+    }
+
+    /**
+     * Set the response status code.
+     *
+     * @param int    $code HTTP status code
+     * @param string $reason
+     *
+     * @return Response
+     */
+    public function setStatusCode(int $code, string $reason = '')
+    {
+        if ($code < 100 || $code > 599) {
+            throw new \RuntimeException('Status code is invalid.');
+        }
+
+        if (isset($this->statusCodes[$code])) {
+            throw new \RuntimeException('Status code is invalid.');
+        }
+
+        $this->statusCode = $code;
+
+        if (! empty($reason)) {
+            $this->reason = $reason;
+        } else {
+            $this->reason = $this->statusCodes[$code];
+        }
+
+        return $this;
+    }
+
+    /**
+     * Gets the response response phrase associated with the status code.
+     *
+     * @return string
+     */
+    public function getReason(): string
+    {
+        if (empty($this->reason)) {
+            return ! empty($this->statusCode) ? $this->statusCodes[$this->statusCode] : '';
+        }
+        return $this->reason;
+    }
+
+    /**
+     * Sets the Content Type header for current response.
+     *
+     * @param string $mime
+     * @param string $charset
+     *
+     * @return Response
+     */
+    public function setContentType(string $mime, string $charset = 'UTF-8')
+    {
+        // add charset attribute if not already there and provided as param
+        if ((strpos($mime, 'charset=') < 1) && ! empty($charset)) {
+            $mime .= '; charset=' . $charset;
+        }
+
+        $this->headers['Content-Type'] = $mime;
         return $this;
     }
 
@@ -159,7 +216,9 @@ class Response
         }
 
         // If null, will use the default provided for the status code.
-        $this->reason or $this->reason = $this->statusCodes[$this->statusCode];
+        if (is_null($this->reason)) {
+            $this->reason = $this->statusCodes[$this->statusCode];
+        }
 
         // HTTP Status
         header(sprintf('HTTP/%s %s %s', $this->configs['version'], $this->statusCode, $this->reason), true, $this->statusCode);
@@ -189,58 +248,12 @@ class Response
     }
 
     /**
-     * Sets the body of the current message.
-     *
-     * @param $data
-     * @return Response
+     * Sends the output to the browser.
      */
-    public function setBody($data)
+    public function send()
     {
-        $this->body = $data;
-        return $this;
-    }
-
-    /**
-     * Sets the Content Type header for current response.
-     *
-     * @param string $mime
-     * @param string $charset
-     * @return Response
-     */
-    public function setContentType(string $mime, string $charset = 'UTF-8')
-    {
-        // add charset attribute if not already there and provided as parm
-        if ((strpos($mime, 'charset=') < 1) && ! empty($charset)) {
-            $mime .= '; charset=' . $charset;
-        }
-
-        $this->headers['Content-Type'] = $mime;
-        return $this;
-    }
-
-    /**
-     * Set the response status code.
-     *
-     * @param int    $code HTTP status code
-     * @param string $reason
-     * @return Response
-     */
-    public function setStatusCode(int $code, string $reason = '')
-    {
-        if ($code < 100 || $code > 599)
-            throw new \RuntimeException('Status code invalid.');
-
-        if (isset($this->statusCodes[$code]))
-            throw new \RuntimeException('Status code invalid.');
-
-        $this->statusCode = $code;
-
-        if (! empty($reason)) {
-            $this->reason = $reason;
-        } else {
-            $this->reason = $this->statusCodes[$code];
-        }
-
+        $this->sendHeaders();
+        $this->sendBody();
         return $this;
     }
 }

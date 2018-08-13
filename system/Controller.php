@@ -11,28 +11,28 @@
 
 namespace HDev;
 
-use HDev\HTTP\Request;
-use HDev\HTTP\Response;
+use HDev\HTTP\RequestInterface;
+use HDev\HTTP\ResponseInterface;
 
 class Controller
 {
     /**
-     * @var Request
+     * @var HTTP\Request
      */
     public $request;
 
     /**
-     * @var Response
+     * @var HTTP\Response
      */
     public $response;
 
     /**
      * Constructor.
      *
-     * @param Request  $request
-     * @param Response $response
+     * @param RequestInterface  $request
+     * @param ResponseInterface $response
      */
-    public function initController(Request $request, Response $response)
+    public function initController(RequestInterface $request, ResponseInterface $response)
     {
         $this->request = $request;
         $this->response = $response;

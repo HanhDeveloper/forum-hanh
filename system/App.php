@@ -11,11 +11,13 @@
 
 namespace HDev;
 
+use HDev\Config\Services;
 use HDev\HTTP\Request;
 use HDev\HTTP\Response;
 use HDev\Loader\Loader;
 use HDev\Log\Logger;
 use HDev\Router\Router;
+use Illuminate\Database\Capsule\Manager;
 
 class App
 {
@@ -35,19 +37,12 @@ class App
     private $response;
 
     /**
-     * @var Loader
-     */
-    private $load;
-
-    /**
      * App constructor.
      */
     public function __construct()
     {
-        $this->load = new Loader();
-        $this->request = $this->load->request();
-        $this->response = $this->load->response();
-        $this->load->database();
+        $this->request = Services::request();
+        $this->response = Services::response();
     }
 
     /**
@@ -69,10 +64,12 @@ class App
      *
      * @param Router $router
      * @param bool   $return
+     *
      * @return mixed|null
      */
     private function handleRequest(Router $router, bool $return = false)
     {
+        $this->database();
         /**
          * @var \HDev\View\Entity
          */
@@ -84,6 +81,27 @@ class App
     }
 
     /**
+     * Connect database
+     */
+    public function database()
+    {
+        $capsule = new Manager();
+        $capsule->addConnection([
+            'driver'    => defined('DB_DRIVER') ? DB_DRIVER : 'mysql',
+            'host'      => defined('DB_HOST') ? DB_HOST : 'localhost',
+            'database'  => defined('DB_NAME') ? DB_NAME : 'demo',
+            'username'  => defined('DB_USER') ? DB_USER : 'root',
+            'password'  => defined('DB_PASS') ? DB_PASS : '',
+            'charset'   => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix'    => '',
+        ]);
+        $capsule->setAsGlobal();
+        // Setup the Eloquent ORM…
+        $capsule->bootEloquent();
+    }
+
+    /**
      * @return Router|\Phroute\Phroute\RouteCollector
      */
     private function initRouter()
@@ -92,7 +110,7 @@ class App
         $router->controller('/', 'Hanh\\Chat');
         $router->controller('/chat', 'Hanh\\Chat');
         $router = new Router($router->getData(), null, $this->request, $this->response);
-        $router->setBasePath('/hanh-dev');
+        $router->setBasePath('/forum-hanh');
         return $router;
     }
 }

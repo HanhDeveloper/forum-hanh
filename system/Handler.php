@@ -13,7 +13,6 @@ namespace HDev;
 
 class Handler
 {
-
     /**
      * Constructor
      *
@@ -82,6 +81,7 @@ class Handler
      * Handle & log exceptions
      *
      * @param  Throwable $e
+     *
      * @return void
      * @see http://php.net/manual/en/function.set-exception-handler.php
      */
@@ -95,6 +95,7 @@ class Handler
      * display system error page as result of an error or exception
      *
      * @param  Throwable $e
+     *
      * @return Response
      */
     private static function render($e)
@@ -111,6 +112,7 @@ class Handler
      * Map an error code to error text
      *
      * @param int $errno
+     *
      * @return string error text
      */
     private static function errorType($errno)

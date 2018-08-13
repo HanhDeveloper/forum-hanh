@@ -28,7 +28,7 @@ class Session
      *
      * @return boolean
      */
-    public static function getIsLoggedIn()
+    public static function getIsLoggedIn(): bool
     {
         return (isset($_SESSION['is_logged_in']) && $_SESSION['is_logged_in'] === true);
     }
@@ -38,7 +38,7 @@ class Session
      *
      * @return int|null
      */
-    public static function getUserId()
+    public static function getUserId(): int
     {
         return isset($_SESSION['user_id']) ? (int)$_SESSION['user_id'] : null;
     }
@@ -48,7 +48,7 @@ class Session
      *
      * @return int|null
      */
-    public static function getUserRole()
+    public static function getUserRole(): int
     {
         return isset($_SESSION['role']) ? (int)$_SESSION['role'] : null;
     }
@@ -75,6 +75,7 @@ class Session
      * Get value that has been set in the session.
      *
      * @param string $key
+     *
      * @return mixed|null
      */
     public static function get(string $key)
@@ -92,9 +93,10 @@ class Session
      * Returns whether an index exists in the session array.
      *
      * @param string $key
+     *
      * @return bool
      */
-    public static function has(string $key)
+    public static function has(string $key): bool
     {
         return isset($_SESSION[$key]);
     }

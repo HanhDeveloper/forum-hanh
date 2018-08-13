@@ -11,10 +11,6 @@
 
 namespace HDev\View;
 
-/**
- * Class View
- * @package HDev\View
- */
 class View implements RendererInterface
 {
     /**
@@ -53,7 +49,8 @@ class View implements RendererInterface
      * Sets several pieces of view data at once.
      *
      * @param array $data
-     * @return RendererInterface
+     *
+     * @return View
      */
     public function setData(array $data = [])
     {
@@ -66,9 +63,10 @@ class View implements RendererInterface
      *
      * @param string $name
      * @param string $contentType
+     *
      * @return Entity
      */
-    public function render(string $name, $contentType = ContentType::TEXT_HTML)
+    public function render(string $name, $contentType = null)
     {
         if ($name === 'json') {
             $output = $this->jsonEncode($this->data);
@@ -77,15 +75,15 @@ class View implements RendererInterface
 
         $name = str_replace($this->fileExt, '', $name) . $this->fileExt;
         $output = call_user_func_array([$this->twig, 'render'], [$name, $this->data]);
-        return new Entity($output, ContentType::TEXT_HTML);
+        return new Entity($output, $contentType ?? ContentType::TEXT_HTML);
     }
 
     /**
      * Serialize array to JSON and used for the response.
      *
      * @param array $data
-     * @return string Rendered output
      *
+     * @return string Rendered output
      */
     private function jsonEncode(array $data)
     {
@@ -95,7 +93,7 @@ class View implements RendererInterface
     /**
      * Removes all of the view data from the system.
      *
-     * @return RendererInterface
+     * @return View
      */
     public function resetData()
     {

@@ -16,6 +16,7 @@ class Logger
     /**
      * @access public
      * @static static method
+     *
      * @param  string $header
      * @param  string $message
      * @param  string $filename

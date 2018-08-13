@@ -32,17 +32,16 @@ if (! function_exists('view')) {
      *
      * @param string $name
      * @param array  $data
-     * @param array  $options Unused - reserved for third-party extensions.
      *
      * @return string
      */
-    function view(string $name, array $data = [], array $options = [])
+    function view(string $name, array $data = [])
     {
         /**
          * @var \HDev\View\View $renderer
          */
         $renderer = \HDev\Config\Services::renderer();
         return $renderer->setData($data)
-            ->render($name, $options);
+            ->render($name);
     }
 }
