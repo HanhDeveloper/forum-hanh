@@ -19,12 +19,12 @@ class Controller
     /**
      * @var HTTP\Request
      */
-    public $request;
+    protected $request;
 
     /**
      * @var HTTP\Response
      */
-    public $response;
+    protected $response;
 
     /**
      * Constructor.
